@@ -9,12 +9,12 @@ class Board
 
   def [](pos)
     row, col = pos
-    @board[row][col]
+    @board[row - 1][col - 1]
   end
 
   def []=(pos, value)
     row, col = pos
-    @board[row][col] = value
+    @board[row - 1][col - 1] = value
   end
 
   def seed_mines
@@ -47,8 +47,9 @@ class Board
       end
     end
 
-    rendered_board.each do |line|
-      puts line.join(" ")
+    puts "  #{(1..9).to_a.join(" ")}"
+    rendered_board.each_with_index do |line, index|
+      puts "#{index + 1} #{line.join(" ")}"
     end
 
     true
