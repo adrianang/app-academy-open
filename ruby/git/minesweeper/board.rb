@@ -7,6 +7,16 @@ class Board
     @board = Array.new(9) { Array.new(9) }
   end
 
+  def [](pos)
+    row, col = pos
+    @board[row][col]
+  end
+
+  def []=(pos, value)
+    row, col = pos
+    @board[row][col] = value
+  end
+
   def seed_mines
     board_size = @board.length
     
@@ -14,10 +24,11 @@ class Board
     until seeded_mines > (board_size ** 2 / 5)
       random_row_coordinate = rand(board_size)
       random_col_coordinate = rand(board_size)
+      pos = [random_row_coordinate, random_col_coordinate]
 
-      if !@board[random_row_coordinate][random_col_coordinate]
-        @board[random_row_coordinate][random_col_coordinate] = Tile.new(self.board)
-        @board[random_row_coordinate][random_col_coordinate].mined = true
+      if !self[pos]
+        self[pos] = Tile.new(self.board)
+        self[pos].mined = true
         seeded_mines += 1
       end
     end 
