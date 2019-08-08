@@ -6,4 +6,13 @@ class Tile
     @flagged = false
     @revealed = false
   end
+
+  def reveal
+    if !self.revealed
+      @revealed = true
+    end
+  end
+
+  def neighbors
+  end
 end
