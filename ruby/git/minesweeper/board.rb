@@ -29,6 +29,7 @@ class Board
       if !self[pos]
         self[pos] = Tile.new(self.board)
         self[pos].mined = true
+        self[pos].position_on_board = pos.map { |index| index - 1 }
         seeded_mines += 1
       end
     end 
