@@ -31,7 +31,7 @@ class Tile
       end
     end
     
-    self.neighbors = tile_neighbors
+    self.neighbors = tile_neighbors.select { |neighbor| ((0...9).include?(neighbor[0]) && (0...9).include?(neighbor[1])) }
     true
   end
 

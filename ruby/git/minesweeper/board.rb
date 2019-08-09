@@ -42,8 +42,8 @@ class Board
   end
 
   def assign_neighbors
-    (1...@board.length - 1).each do |row|
-      (1...@board.length - 1).each do |col|
+    (0...@board.length).each do |row|
+      (0...@board.length).each do |col|
         self[[row, col]].find_neighbors
       end
     end    
