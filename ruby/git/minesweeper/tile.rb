@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :mined, :revealed, :neighbors, :board, :position_on_board
+  attr_accessor :mined, :flagged, :revealed, :neighbors, :board, :position_on_board
 
   def initialize(board)
     @mined = nil
@@ -12,6 +12,14 @@ class Tile
 
   def inspect
     { 'mined' => @mined, 'flagged' => @flagged, 'revealed' => @revealed, 'neighbors' => @neighbors, 'position_on_board' => @position_on_board }.inspect
+  end
+
+  def flag
+    if !self.flagged
+      @flagged = true
+    else
+      @flagged = false
+    end
   end
 
   def reveal
