@@ -54,6 +54,7 @@ class Board
     self.seed_mines
     self.assign_neighbors
     self.update_board
+    self.cheat
     true
   end
 
@@ -65,14 +66,37 @@ class Board
     end
   end
 
+  def cheat
+    cheat_board = Array.new(9) { Array.new(9) }
+
+    (0...9).each do |row|
+      (0...9).each do |col|
+        if !@board[row][col].mined #&& ((1..8).include?(row)) && ((1..8).include?(col))
+          cheat_board[row][col] = self[[row, col]].neighbor_mine_count
+        elsif @board[row][col].mined
+          cheat_board[row][col] = "X"
+        end
+      end
+    end
+
+    puts "  #{(0...9).to_a.join(" ")}"
+    cheat_board.each_with_index do |line, index|
+      puts "#{index} #{line.join(" ")}"
+    end
+
+    true
+  end
+
   def render
     rendered_board = Array.new(9) { Array.new(9) }
 
     (0...9).each do |row|
       (0...9).each do |col|
-        if !@board[row][col].mined #&& ((1..8).include?(row)) && ((1..8).include?(col))
-          rendered_board[row][col] = self[[row, col]].neighbor_mine_count
-        elsif @board[row][col].mined
+        if !@board[row][col].revealed
+          rendered_board[row][col] = "*"
+        elsif @board[row][col].revealed && @board[row][col].neighbor_mine_count
+          rendered_board[row][col] = @board[row][col].neighbor_mine_count.to_s
+        elsif @board[row][col].revealed && @board[row][col].mined
           rendered_board[row][col] = "X"
         end
       end

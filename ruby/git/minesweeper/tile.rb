@@ -1,5 +1,5 @@
 class Tile
-  attr_accessor :mined, :neighbors, :board, :position_on_board
+  attr_accessor :mined, :revealed, :neighbors, :board, :position_on_board
 
   def initialize(board)
     @mined = nil
@@ -17,6 +17,12 @@ class Tile
   def reveal
     if !self.revealed
       @revealed = true
+
+      if self.neighbor_mine_count == 0
+        self.neighbors.each do |pos|
+          @board[pos[0]][pos[1]].reveal
+        end
+      end
     end
   end
 
