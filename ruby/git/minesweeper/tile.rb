@@ -5,7 +5,7 @@ class Tile
     @mined = nil
     @flagged = false
     @revealed = false
-    @neighbors = nil
+    @neighbors = []
     @board = board
     @position_on_board = nil
   end
@@ -20,14 +20,22 @@ class Tile
     end
   end
 
-  def neighbors
+  def find_neighbors
+    check_rows = @position_on_board[0]
+    check_cols = @position_on_board[1]
 
+    (check_rows - 1..check_rows + 1).each do |row|
+      (check_cols - 1..check_rows + 1).each do |col|
+        @neighbors << [row, col] if [row, col] != @position_on_board
+      end
+    end
   end
 
   def neighbor_mine_count
     mine_count = 0
 
-    (0...9).each do |row|
+    @neighbors.each do |pos|
+      mine_count += 1 if self.board[pos.first][pos.last].mined
     end
 
     mine_count
