@@ -9,12 +9,12 @@ class Board
 
   def [](pos)
     row, col = pos
-    @board[row - 1][col - 1]
+    @board[row][col]
   end
 
   def []=(pos, value)
     row, col = pos
-    @board[row - 1][col - 1] = value
+    @board[row][col] = value
   end
 
   def assign_coordinates
@@ -36,16 +36,15 @@ class Board
 
       if !self[pos].mined
         self[pos].mined = true
-        self[pos].position_on_board = pos.map { |index| index - 1 }
         seeded_mines += 1
       end
     end 
   end
 
-  def pass_board_to_tile
-    (0...@board.length).each do |row|
-      (0...@board.length).each do |col|
-        @board[row][col].board = @board
+  def assign_neighbors
+    (1...@board.length - 1).each do |row|
+      (1...@board.length - 1).each do |col|
+        self[[row, col]].find_neighbors
       end
     end    
   end
@@ -53,8 +52,17 @@ class Board
   def construct
     self.assign_coordinates
     self.seed_mines
-    self.pass_board_to_tile
+    self.assign_neighbors
+    self.update_board
     true
+  end
+
+  def update_board
+    (0...9).each do |row|
+      (0...9).each do |col|
+        self[[row, col]].board = @board
+      end
+    end
   end
 
   def render
@@ -62,17 +70,17 @@ class Board
 
     (0...9).each do |row|
       (0...9).each do |col|
-        if !@board[row][col].mined
-          rendered_board[row][col] = "*"
+        if !@board[row][col].mined #&& ((1..8).include?(row)) && ((1..8).include?(col))
+          rendered_board[row][col] = self[[row, col]].neighbor_mine_count
         elsif @board[row][col].mined
           rendered_board[row][col] = "X"
         end
       end
     end
 
-    puts "  #{(1..9).to_a.join(" ")}"
+    puts "  #{(0...9).to_a.join(" ")}"
     rendered_board.each_with_index do |line, index|
-      puts "#{index + 1} #{line.join(" ")}"
+      puts "#{index} #{line.join(" ")}"
     end
 
     true
