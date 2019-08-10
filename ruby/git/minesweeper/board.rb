@@ -54,7 +54,6 @@ class Board
     self.seed_mines
     self.assign_neighbors
     self.update_board
-    self.cheat
     true
   end
 
