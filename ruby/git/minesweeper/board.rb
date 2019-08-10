@@ -20,7 +20,7 @@ class Board
   def assign_coordinates
     (0...@board.length).each do |row|
       (0...@board.length).each do |col|
-        @board[row][col].position_on_board = [row, col] 
+        self[[row, col]].position_on_board = [row, col] 
       end
     end
   end
@@ -29,13 +29,13 @@ class Board
     board_size = @board.length
     
     seeded_mines = 0
-    until seeded_mines > (board_size ** 2 / 5)
+    until seeded_mines > (board_size ** 2 / 9)
       random_row_coordinate = rand(board_size)
       random_col_coordinate = rand(board_size)
-      pos = [random_row_coordinate, random_col_coordinate]
+      random_pos = [random_row_coordinate, random_col_coordinate]
 
-      if !self[pos].mined
-        self[pos].mined = true
+      if !self[random_pos].mined
+        self[random_pos].mined = true
         seeded_mines += 1
       end
     end 
@@ -69,11 +69,11 @@ class Board
   def cheat
     cheat_board = Array.new(9) { Array.new(9) }
 
-    (0...9).each do |row|
-      (0...9).each do |col|
-        if !@board[row][col].mined #&& ((1..8).include?(row)) && ((1..8).include?(col))
+    (0...cheat_board.length).each do |row|
+      (0...cheat_board.length).each do |col|
+        if !self[[row,col]].mined
           cheat_board[row][col] = self[[row, col]].neighbor_mine_count
-        elsif @board[row][col].mined
+        elsif self[[row,col]].mined
           cheat_board[row][col] = "X"
         end
       end

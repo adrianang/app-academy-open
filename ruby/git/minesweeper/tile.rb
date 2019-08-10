@@ -11,7 +11,12 @@ class Tile
   end
 
   def inspect
-    { 'mined' => @mined, 'flagged' => @flagged, 'revealed' => @revealed, 'neighbors' => @neighbors, 'position_on_board' => @position_on_board }.inspect
+    { 'mined' => @mined,
+      'flagged' => @flagged,
+      'revealed' => @revealed,
+      'neighbors' => @neighbors,
+      'position_on_board' => @position_on_board 
+    }.inspect
   end
 
   def flag
@@ -45,7 +50,8 @@ class Tile
       end
     end
     
-    self.neighbors = tile_neighbors.select { |neighbor| ((0...9).include?(neighbor[0]) && (0...9).include?(neighbor[1])) }
+    selected_tile_neighbors = tile_neighbors.select { |neighbor| ((0...9).include?(neighbor[0]) && (0...9).include?(neighbor[1])) }
+    self.neighbors = selected_tile_neighbors
     true
   end
 
