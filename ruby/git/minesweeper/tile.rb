@@ -20,7 +20,7 @@ class Tile
   end
 
   def flag
-    if !self.flagged
+    if !self.flagged && !self.revealed
       @flagged = true
     else
       @flagged = false
