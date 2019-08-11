@@ -1,4 +1,5 @@
 require_relative "board"
+require "yaml"
 
 class Minesweeper
   attr_accessor :board
@@ -109,6 +110,17 @@ class Minesweeper
       end
     end
 
+    true
+  end
+
+  def save_game
+    board_data = self.board
+    File.open("save.yml", "w") { |file| file.write(board_data.to_yaml) }
+  end
+
+  def load_game
+    board_data = YAML.load(File.read("save.yml"))
+    self.board = board_data
     true
   end
 end
