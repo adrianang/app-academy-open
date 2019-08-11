@@ -29,7 +29,7 @@ class Board
     board_size = @board.length
     
     seeded_mines = 0
-    until seeded_mines > (board_size ** 2 / 9)
+    until seeded_mines > board_size
       random_row_coordinate = rand(board_size)
       random_col_coordinate = rand(board_size)
       random_pos = [random_row_coordinate, random_col_coordinate]
