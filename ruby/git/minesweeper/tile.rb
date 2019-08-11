@@ -31,7 +31,7 @@ class Tile
     if !self.revealed
       @revealed = true
 
-      if self.neighbor_mine_count == 0
+      if self.neighbor_mine_count == 0 && !self.mined
         self.neighbors.each do |pos|
           @board[pos[0]][pos[1]].reveal
         end

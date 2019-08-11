@@ -9,6 +9,7 @@ class Minesweeper
 
   def play
     self.board.construct
+    puts self.board.cheat
 
     until self.game_over?
       puts "Pick a position (row, column):"
@@ -45,6 +46,17 @@ class Minesweeper
   end
 
   def game_over?
-    
+    (0...self.board.board.length).each do |row|
+      (0...self.board.board.length).each do |col|
+        current_tile = self.board[[row, col]]
+        if current_tile.revealed && current_tile.mined
+          return true
+        elsif !current_tile.revealed && !current_tile.mined
+          return false
+        end
+      end
+    end
+
+    true
   end
 end

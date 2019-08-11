@@ -95,12 +95,12 @@ class Board
           rendered_board[row][col] = "F"        
         elsif !@board[row][col].revealed
           rendered_board[row][col] = "*"
+        elsif @board[row][col].revealed && @board[row][col].mined
+          rendered_board[row][col] = "X"
         elsif @board[row][col].revealed && (@board[row][col].neighbor_mine_count > 0)
           rendered_board[row][col] = @board[row][col].neighbor_mine_count.to_s
         elsif @board[row][col].revealed && (@board[row][col].neighbor_mine_count == 0)
           rendered_board[row][col] = "-"
-        elsif @board[row][col].revealed && @board[row][col].mined
-          rendered_board[row][col] = "X"
         end
       end
     end
