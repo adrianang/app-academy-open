@@ -92,11 +92,11 @@ class Board
     (0...9).each do |row|
       (0...9).each do |col|
         if @board[row][col].flagged
-          rendered_board[row][col] = "F"        
+          rendered_board[row][col] = "📍"        
         elsif !@board[row][col].revealed
           rendered_board[row][col] = "*"
         elsif @board[row][col].revealed && @board[row][col].mined
-          rendered_board[row][col] = "X"
+          rendered_board[row][col] = "💣"
         elsif @board[row][col].revealed && (@board[row][col].neighbor_mine_count > 0)
           rendered_board[row][col] = @board[row][col].neighbor_mine_count.to_s
         elsif @board[row][col].revealed && (@board[row][col].neighbor_mine_count == 0)

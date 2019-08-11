@@ -5,6 +5,7 @@ class Minesweeper
 
   def initialize
     @board = Board.new
+    self.board.construct
   end
 
   def inspect
@@ -12,8 +13,6 @@ class Minesweeper
   end
 
   def play
-    self.board.construct
-    puts self.board.cheat
     self.play_turn until self.game_over?
     self.format_board_rendering
     puts "Game over!"
