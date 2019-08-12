@@ -34,11 +34,11 @@ class Minesweeper
   end
 
   def get_input_action
-    puts "Would you like to reveal ('r') or (un)flag ('f') this position?"
+    puts "Would you like to reveal ('r') or (un)flag ('f') this position? Or, save ('s') this game or load ('l') a previous game?"
     user_input = gets.chomp(&:to_lower)
     
-    if !(["r", "f"]).include?(user_input[0])
-      puts "Not a valid action! Type 'r' to reveal or 'f' to flag."
+    if !(["r", "f", "s", "l"]).include?(user_input[0])
+      puts "Not a valid action! Type 'r' to reveal, 'f' to (un)flag, 's' to save, or 'l' to load a previous game."
       self.get_input_action
     end
 
@@ -55,15 +55,19 @@ class Minesweeper
         new_action = self.get_input_action
         self.run_action(new_action, new_pos)
       end
-    else
+    elsif action =="f"
       if !self.board[pos].revealed
         self.board[pos].flag
       else
         puts "You've already revealed this tile; try again."
-        new_pos = self.get_input_action
+        new_pos = self.get_input_position
         new_action = self.get_input_action
         self.run_action(new_action, new_pos)
       end
+    elsif action == "s"
+      self.save_game
+    elsif action == "l"
+      self.load_game
     end
   end
 
@@ -114,12 +118,16 @@ class Minesweeper
   end
 
   def save_game
+    puts "Name your file:"
+    file_name = gets.chomp
     board_data = self.board
-    File.open("save.yml", "w") { |file| file.write(board_data.to_yaml) }
+    File.open(file_name, "w") { |file| file.write(board_data.to_yaml) }
   end
 
   def load_game
-    board_data = YAML.load(File.read("save.yml"))
+    puts "Load file:"
+    file_name = gets.chomp
+    board_data = YAML.load(File.read(file_name))
     self.board = board_data
     true
   end
