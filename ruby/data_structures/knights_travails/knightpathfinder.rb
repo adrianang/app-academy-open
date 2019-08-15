@@ -27,7 +27,9 @@ class KnightPathFinder
   end
 
   def new_move_positions(pos)
-    KnightPathFinder.valid_moves(pos)
-
+    new_moves = []
+    selected_new_moves = KnightPathFinder.valid_moves(pos).select { |valid_move| !@considered_positions.include?(valid_move) }
+    @considered_positions += selected_new_moves
+    selected_new_moves
   end
 end
