@@ -41,7 +41,9 @@ class KnightPathFinder
       new_moves = self.new_move_positions(node.value)
 
       new_moves.each do |move|
-        queue << PolyTreeNode.new(move)
+        new_move_node = PolyTreeNode.new(move)
+        node.add_child(new_move_node)
+        queue << new_move_node
       end
     end
 
