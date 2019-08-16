@@ -56,5 +56,7 @@ class PolyTreeNode
       return first_node if first_node.value == target_value
       first_node.children.each { |child| queue << child}
     end
+
+    nil
   end
 end

@@ -1,6 +1,8 @@
 require_relative "polytreenode"
 
 class KnightPathFinder
+  attr_accessor :root_node
+
   def self.valid_moves(pos)
     valid_moves = []
 
@@ -48,5 +50,22 @@ class KnightPathFinder
     end
 
     true
+  end
+
+  def find_path(end_pos)
+    found_node = self.root_node.bfs(end_pos)
+    self.trace_path_back(found_node)
+  end
+
+  def trace_path_back(node)
+    path = []
+
+    until node.parent.nil?
+      path << node.value
+      node = node.parent
+    end
+
+    path << @root_node.value
+    path.reverse
   end
 end
