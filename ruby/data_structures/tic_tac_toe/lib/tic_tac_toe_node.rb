@@ -10,6 +10,16 @@ class TicTacToeNode
   end
 
   def losing_node?(evaluator)
+    if self.board.over?
+      return true if self.board.winner != evaluator
+      return false if (self.board.winner == evaluator) || self.board.winner.nil?
+    end
+
+    if evaluator == self.next_mover_mark
+      self.children.all? { |child| child.losing_node?(evaluator) }
+    else
+      self.children.any? { |child| child.losing_node?(evaluator) }
+    end
   end
 
   def winning_node?(evaluator)
@@ -22,8 +32,10 @@ class TicTacToeNode
 
     (0...3).each do |row|
       (0...3).each do |col|
-        if self.board[[row, col]].nil?
-          possible_moves << TicTacToeNode.new(self.board.dup, ((self.next_mover_mark == :x) ? :o : :x), [row, col])
+        if self.board.empty?([row, col])
+          new_move = TicTacToeNode.new(self.board.dup, ((self.next_mover_mark == :x) ? :o : :x), [row, col])
+          new_move.board[[row, col]] = @next_mover_mark
+          possible_moves << new_move
         end
       end
     end
