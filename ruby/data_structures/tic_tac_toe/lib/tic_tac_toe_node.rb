@@ -1,7 +1,7 @@
 require_relative 'tic_tac_toe'
 
 class TicTacToeNode
-  attr_accessor :board, :next_mover_mark
+  attr_accessor :board, :next_mover_mark, :prev_move_pos
 
   def initialize(board, next_mover_mark, prev_move_pos = nil)
     @board = board
@@ -23,7 +23,7 @@ class TicTacToeNode
     (0...3).each do |row|
       (0...3).each do |col|
         if self.board[[row, col]].nil?
-          possible_moves << TicTacToeNode.new(self.board.dup, !self.next_mover_mark, [row, col])
+          possible_moves << TicTacToeNode.new(self.board.dup, ((self.next_mover_mark == :x) ? :o : :x), [row, col])
         end
       end
     end
