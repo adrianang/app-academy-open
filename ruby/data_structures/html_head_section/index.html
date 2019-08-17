@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="A delectable, meat-free, cost friendly recipe using ingredients from Trader Joe's, for broke college students and recent graduates.">
+    <title>Adrian Ang's Beefless Burrito Recipe (from Trader Joe's)</title>
+    <link rel="stylesheet" href="assets/css_reset.css" type="text/css">
+    <script type="text/javascript" src="assets/external_javascript_example.js"></script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-12345678-9', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <header>
+        <img src="https://assets.aaonline.io/fullstack/html-css/micro-projects/appacademylogo.png" alt="App Academy Logo"/>
+
+        <nav>
+            <ul>
+                <li><a href="#description">Description</a></li>
+                <li><a href="#ingredients">Ingredients</a></li>
+                <li><a href="#directions">Directions</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <aside>
+        <h2 id="ingredients">Ingredients</h2>
+        <ul>
+            <li>1 tablespoon TJ's Olive Oil</li>
+            <li>1/2 package TJ's Portobello Mushrooms, diced</li>
+            <li>1 package TJ's Beef-less Ground Beef</li>
+            <li>1/2 cup plus 2 tablespoons TJ's Organic Spicy Taco Sauce</li>
+            <li>Your favorite TJ's Tortillas</li>
+            <li>1/2 head of TJ's Iceberg Lettuce, shredded</li>
+            <li>2 TJ's Roma Tomatoes, diced</li>
+            <li>TJ's Mild Shredded Cheddar Cheese</li>
+        </ul>
+    </aside>
+
+    <section>
+        <h1>Beef-less Burritos from Trader Joe's</h1>
+
+        <figure>
+            <img src="https://www.traderjoes.com/TJ_CMS_Content/Images/Recipe/beefless-burrito.jpg" alt="A Beef-less Burrito made from ingredients from Trader Joe's."/>
+            <figcaption>
+                Beef-less burrito stock photo, courtesy of <a href="https://en.wikipedia.org/wiki/Trader_Joe%27s" target="_blank">Trader Joe’s</a>.
+            </figcaption>
+        </figure>
+
+        <h2 id="description">Description</h2>
+        <p>Making a taco better than its already-delicious self sounds like a tall task, but then you probably haven’t tried a taco
+        that’s been doused in <a href="https://en.wikipedia.org/wiki/Trader_Joe%27s" target="_blank">Trader Joe’s</a> Organic Spicy Taco Sauce. We start with a base of distilled vinegar and tomato paste;
+        add some heat thanks to chili pepper powder, red jalapeño pepper pur&eacute;e, and cayenne peppers; and round out the flavor
+        with spices like garlic powder, pepper, and oregano.</p>
+        <p>This savory, tangy, and spicy sauce isn’t so spicy that you’d have any qualms about dousing your food in it. And just
+        because it’s called Taco Sauce doesn’t mean you have to use this stuff exclusively on tacos. Burritos, taquitos,
+        tamales, quesadillas, nachos, scrambled eggs, burgers, chicken tenders... they’re are all fair game! In this recipe,
+        we’ve simmered Trader Joe’s Beef-less Ground Beef and diced mushrooms in our Spicy Taco Sauce for a multipurpose,
+        meatless taco or burrito filling with just the right amount of heat.</p>
+
+        <h2 id="directions">Directions</h2>
+        <ol>
+            <li>Heat oil in a skillet over medium heat.</li>
+            <li>Add diced mushrooms to skillet and let cook undisturbed for 5 minutes, until most of the moisture has evaporated.</li>
+            <li>Add beef-less beef and taco sauce to skillet and saut&eacute; another 5–7 minutes, until heated through.</li>
+            <li>To serve, scoop beef-less beef into a warm tortilla and top with lettuce, tomato, and cheese.</li>
+            <li>Fold as you like and serve with more taco sauce for drizzling.</li>
+        </ol>
+    </section>
+
+    <section id="reviews">
+        <h2 id="reviews-header">Reviews</h2>
+        <form action="/reviews" method="POST" id="review-form">
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name">
+
+            <label for="rating">Rating: </label>
+            <input type="radio" id="one" value="1" name="rating" checked>
+            <label for="one">1</label>
+
+            <input type="radio" id="two" value="2" name="rating">
+            <label for="two">2</label>
+
+            <input type="radio" id="three" value="3" name="rating">
+            <label for="three">3</label>
+
+            <input type="radio" id="four" value="4" name="rating">
+            <label for="four">4</label>
+
+            <input type="radio" id="five" value="5" name="rating">
+            <label for="five">5</label>
+
+            <label for="expertise">Cooking Expertise</label>
+            <select id="expertise" name="expertise">
+                <option value="Select Cooking Expertise" disabled selected>Select Cooking Expertise</option>
+                <option value="Sometimes Cook">Sometimes Cook</option>
+                <option value="Cook Everyday">Cook Everyday</option>
+                <option value="Cooking is a Hobby">Cooking is a Hobby</option>
+                <option value="Professional Chef">Professional Chef</option>
+            </select>
+
+            <label>
+                <textarea id="written-review" name="written-review" rows="5" cols="34">Write a review!</textarea>
+            </label>
+
+            <input type="submit" value="Submit">
+        </form>
+    </section>
+
+    <footer>
+        <p>This recipe was originally from <a href="https://www.traderjoes.com/recipes/dinner/beefless-burritos">Trader Joe's</a>!</p>
+    </footer>
+</body>
+</html>
