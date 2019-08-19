@@ -67,6 +67,18 @@ class Board
   end
 
   def one_side_empty?
+    player1_side_empty = true
+    player2_side_empty = true
+
+    (0..5).each do |side_1_index|
+      player1_side_empty = false if !@cups[side_1_index].empty?
+    end
+
+    (7..12).each do |side_2_index|
+      player2_side_empty = false if !@cups[side_2_index].empty?
+    end
+
+    player1_side_empty || player2_side_empty
   end
 
   def winner
