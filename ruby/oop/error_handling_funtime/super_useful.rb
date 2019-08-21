@@ -5,27 +5,39 @@ def convert_to_int(str)
   rescue ArgumentError => e
     puts "Error: #{e}"
   ensure
-    return nil
+    return "nil"
   end
 end
 
 # PHASE 3
 FRUITS = ["apple", "banana", "orange"]
 
+class CoffeeRelatedError < StandardError
+end
+
 def reaction(maybe_fruit)
   if FRUITS.include? maybe_fruit
     puts "OMG, thanks so much for the #{maybe_fruit}!"
+  elsif maybe_fruit == "coffee"
+    raise CoffeeRelatedError.new
   else 
-    raise StandardError 
+    raise ArgumentError.new
   end 
 end
 
 def feed_me_a_fruit
-  puts "Hello, I am a friendly monster. :)"
-
-  puts "Feed me a fruit! (Enter the name of a fruit:)"
-  maybe_fruit = gets.chomp
-  reaction(maybe_fruit) 
+  begin
+    puts "Hello, I am a friendly monster. :)"
+    puts "Feed me a fruit! (Enter the name of a fruit:)"
+    maybe_fruit = gets.chomp
+    reaction(maybe_fruit)
+  rescue CoffeeRelatedError => e
+    puts "That is not a fruit! But it is coffee! And a monster luvs coffee ;)"
+    puts "The ever-so-gracious monster has spared you; try again!"
+    retry
+  rescue ArgumentError => e
+    puts "That is not a fruit! The monster got tired since you didn't feed them a fruit :("
+  end
 end  
 
 # PHASE 4
