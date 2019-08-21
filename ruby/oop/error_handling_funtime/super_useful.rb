@@ -41,15 +41,21 @@ def feed_me_a_fruit
 end  
 
 # PHASE 4
+class FriendlyError < StandardError
+end
+
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
+
+    raise FriendlyError.new "We can't be friends... tbh we literally barely know each other." if yrs_known < 5
+    raise FriendlyError.new "There's something important you've left out... tbh we can't be friends." if name.empty? || fav_pastime.empty?
   end
 
   def talk_about_friendship
-    puts "Wowza, we've been friends for #{@yrs_known}. Let's be friends for another #{1000 * @yrs_known}."
+    puts "Wowza, we've been friends for #{@yrs_known} years. Let's be friends for another #{1000 * @yrs_known}."
   end
 
   def do_friendstuff
