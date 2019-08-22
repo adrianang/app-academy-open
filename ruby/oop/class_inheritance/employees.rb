@@ -6,6 +6,7 @@ class Employee
     @title = title
     @salary = salary
     @boss = boss
+    @boss.employees << self if @boss != nil
   end
 
   def bonus(multiplier)
@@ -17,7 +18,7 @@ end
 class Manager < Employee
   attr_accessor :employees
 
-  def initialize(name, title, salary, boss)
+  def initialize(name, title, salary, boss = nil)
     super(name, title, salary, boss)
     @employees = []
   end
@@ -29,10 +30,7 @@ class Manager < Employee
     until queue.empty?
       manager = queue.shift
       manager.employees.each do |employee|
-        if employee.instance_variable_defined?(:@employees)
-          queue << employee
-        end
-
+        queue << employee if employee.instance_variable_defined?(:@employees)
         total_salaries += employee.salary
       end
     end
