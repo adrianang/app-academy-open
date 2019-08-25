@@ -5,14 +5,14 @@ class Board
 
   def initialize
     @board = Array.new(8) { Array.new(8) { nil } }
-    self.initialize_pieces
+    # self.initialize_pieces
   end
 
   def initialize_pieces
-    @board[0] = @board[0].map { |space| space = Piece.new }
-    @board[1] = @board[1].map { |space| space = Piece.new }
-    @board[-2] = @board[-2].map { |space| space = Piece.new }
-    @board[-1] = @board[-1].map { |space| space = Piece.new }
+    @board[0] = @board[0].map { |space| space = Piece.new(self, nil) }
+    @board[1] = @board[1].map { |space| space = Piece.new(self, nil) }
+    @board[-2] = @board[-2].map { |space| space = Piece.new(self, nil) }
+    @board[-1] = @board[-1].map { |space| space = Piece.new(self, nil) }
   end
 
   def [](pos)
