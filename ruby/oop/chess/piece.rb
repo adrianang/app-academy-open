@@ -16,6 +16,14 @@ module Slidable
           end
         end
       end
+    else
+      (1...8).each do |move_factor|
+        ((self.pos[0] - move_factor)..(self.pos[1] + move_factor)).step(move_factor).each do |row|
+          ((self.pos[0] - move_factor)..(self.pos[1] + move_factor)).step(move_factor).each do |col|
+            moves << [row, col] if ([row, col] != self.pos)
+          end
+        end
+      end      
     end
 
     moves
@@ -72,5 +80,17 @@ class BishopPiece < Piece
 
   def move_dirs
     self.diagonal_dirs
+  end
+end
+
+class QueenPiece < Piece
+  include Slidable
+
+  def initialize(board, pos)
+    super
+  end
+
+  def move_dirs
+    self.horizontal_dirs + self.diagonal_dirs
   end
 end
