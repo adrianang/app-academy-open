@@ -38,15 +38,41 @@ module Slidable
   end
 
   def move_dirs
-    if self.is_a? RookPiece
-      return horizontal_dirs
-    end
+    self.move_dirs
   end
 end
 
 module Stepable
-  def moves
+  @@L_SHAPE = [:two, :one]
+  @@RING = [:one]
 
+  def moves
+    moves = []
+
+    if self.move_diffs == self.l_shape
+      ((self.pos[0] - 1)..(self.pos[0] + 1)).step(2).each do |row|
+        ((self.pos[1] - 2)..(self.pos[1] + 2)).step(4).each do |col|
+          moves << [row, col]
+        end
+      end
+
+      ((self.pos[0] - 2)..(self.pos[0] + 2)).step(4).each do |row|
+        ((self.pos[1] - 1)..(self.pos[1] + 1)).step(2).each do |col|
+          moves << [row, col]
+        end
+      end
+    else
+    end
+
+    moves
+  end
+
+  def move_diffs
+    self.move_diffs
+  end
+
+  def l_shape
+    @@L_SHAPE
   end
 end
 
@@ -92,5 +118,13 @@ class QueenPiece < Piece
 
   def move_dirs
     self.horizontal_dirs + self.diagonal_dirs
+  end
+end
+
+class KnightPiece < Piece
+  include Stepable
+
+  def move_diffs
+    @@L_SHAPE
   end
 end
