@@ -133,6 +133,10 @@ end
 class KnightPiece < Piece
   include Stepable
 
+  def initialize(board, pos)
+    super
+  end
+
   def move_diffs
     @@L_SHAPE
   end
@@ -141,7 +145,20 @@ end
 class KingPiece < Piece
   include Stepable
 
+  def initialize(board, pos)
+    super
+  end
+
   def move_diffs
     @@RING
+  end
+end
+
+class NullPiece < Piece
+  def initialize
+  end
+
+  def moves
+    nil
   end
 end
