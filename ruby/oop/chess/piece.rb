@@ -61,7 +61,12 @@ module Stepable
           moves << [row, col]
         end
       end
-    else
+    else self.move_diffs == self.ring
+      ((self.pos[0] - 1)..(self.pos[0] + 1)).each do |row|
+        ((self.pos[1] - 1)..(self.pos[1] + 1)).each do |col|
+          moves << [row, col] if [row, col] != self.pos
+        end
+      end
     end
 
     moves
@@ -73,6 +78,10 @@ module Stepable
 
   def l_shape
     @@L_SHAPE
+  end
+
+  def ring
+    @@RING
   end
 end
 
@@ -126,5 +135,13 @@ class KnightPiece < Piece
 
   def move_diffs
     @@L_SHAPE
+  end
+end
+
+class KingPiece < Piece
+  include Stepable
+
+  def move_diffs
+    @@RING
   end
 end
