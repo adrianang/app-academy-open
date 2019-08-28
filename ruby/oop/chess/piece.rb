@@ -86,9 +86,10 @@ module Stepable
 end
 
 class Piece
-  attr_accessor :board, :pos
+  attr_accessor :color, :board, :pos
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
+    @color = color
     @board = board
     @pos = pos
   end
@@ -97,7 +98,7 @@ end
 class RookPiece < Piece
   include Slidable
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
     super
   end
 
@@ -109,7 +110,7 @@ end
 class BishopPiece < Piece
   include Slidable
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
     super
   end
 
@@ -121,7 +122,7 @@ end
 class QueenPiece < Piece
   include Slidable
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
     super
   end
 
@@ -133,7 +134,7 @@ end
 class KnightPiece < Piece
   include Stepable
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
     super
   end
 
@@ -145,7 +146,7 @@ end
 class KingPiece < Piece
   include Stepable
 
-  def initialize(board, pos)
+  def initialize(color, board, pos)
     super
   end
 
@@ -160,5 +161,32 @@ class NullPiece < Piece
 
   def moves
     nil
+  end
+end
+
+class Pawn < Piece
+  def initialize(color, board, pos)
+    super
+  end
+
+  def move_dirs
+    [:forward, :side]
+  end
+
+  def at_start_row?
+    return false if (self.pos[0] != 1) && (self.pos[0] != 6)
+    true
+  end
+
+  def forward_dir
+    if ## black
+      return -1
+    else ## white
+      return 1
+    end
+  end
+
+  def forward_steps
+    [self.pos[0], self.pos[1] + self.forward_dir] 
   end
 end
