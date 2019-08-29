@@ -164,7 +164,7 @@ class NullPiece < Piece
   end
 end
 
-class Pawn < Piece
+class PawnPiece < Piece
   def initialize(color, board, pos)
     super
   end
@@ -179,14 +179,17 @@ class Pawn < Piece
   end
 
   def forward_dir
-    if ## black
-      return -1
-    else ## white
+    if self.color == :black
       return 1
+    else
+      return -1
     end
   end
 
   def forward_steps
     [self.pos[0], self.pos[1] + self.forward_dir] 
+  end
+
+  def side_attacks
   end
 end
