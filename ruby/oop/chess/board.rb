@@ -55,11 +55,14 @@ class Board
   end 
 
   def move_piece(start_pos, end_pos)
-    raise PositionError.new "There is no piece at #{start_pos}." if self[start_pos].nil?
-    raise PositionError.new "The piece cannot move to #{end_pos}." if !self[end_pos].nil?
+    raise PositionError.new "There is no piece at #{start_pos}." if self[start_pos].is_a?(NullPiece)
+    raise PositionError.new "The piece cannot move to #{end_pos}." if !self[end_pos].is_a?(NullPiece)
+    raise PositionError.new "This piece type cannot move to #{end_pos}" if !self[start_pos].valid_moves.include?(end_pos)
 
     self[end_pos] = self[start_pos]
-    self[start_pos] = nil
+    self[start_pos] = NullPiece.new
+
+    self[end_pos].pos = end_pos
     true
   end
 end
