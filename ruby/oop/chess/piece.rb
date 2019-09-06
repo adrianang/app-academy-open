@@ -99,6 +99,10 @@ class Piece
 
     self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) && self.board[pos].is_a?(NullPiece) }
   end
+
+  def symbol
+    self.symbol
+  end
 end
 
 class RookPiece < Piece
@@ -106,6 +110,11 @@ class RookPiece < Piece
 
   def initialize(color, board, pos)
     super
+  end
+
+  def symbol
+    return '♜' if self.color == :black
+    return '♖' if self.color == :white
   end
 
   def move_dirs
@@ -120,6 +129,11 @@ class BishopPiece < Piece
     super
   end
 
+  def symbol
+    return "♝" if self.color == :black
+    return "♗" if self.color == :white
+  end
+
   def move_dirs
     self.diagonal_dirs
   end
@@ -130,6 +144,11 @@ class QueenPiece < Piece
 
   def initialize(color, board, pos)
     super
+  end
+
+  def symbol
+    return "♛" if self.color == :black
+    return "♕" if self.color == :white
   end
 
   def move_dirs
@@ -144,6 +163,11 @@ class KnightPiece < Piece
     super
   end
 
+  def symbol
+    return "♞" if self.color == :black
+    return "♘" if self.color == :white
+  end
+
   def move_diffs
     @@L_SHAPE
   end
@@ -156,6 +180,11 @@ class KingPiece < Piece
     super
   end
 
+  def symbol
+    return "♚" if self.color == :black
+    return "♔" if self.color == :white
+  end
+
   def move_diffs
     @@RING
   end
@@ -163,6 +192,9 @@ end
 
 class NullPiece < Piece
   def initialize
+  end
+
+  def symbol
   end
 
   def moves
@@ -173,6 +205,11 @@ end
 class PawnPiece < Piece
   def initialize(color, board, pos)
     super
+  end
+
+  def symbol
+    return "♟️" if self.color == :black
+    return "♙" if self.color == :white
   end
 
   def move_dirs
