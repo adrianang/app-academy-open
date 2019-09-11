@@ -113,8 +113,8 @@ class RookPiece < Piece
   end
 
   def symbol
-    return '♜' if self.color == :black
-    return '♖' if self.color == :white
+    return ' ♜ ' if self.color == :black
+    return ' ♖ ' if self.color == :white
   end
 
   def move_dirs
@@ -130,8 +130,8 @@ class BishopPiece < Piece
   end
 
   def symbol
-    return "♝" if self.color == :black
-    return "♗" if self.color == :white
+    return " ♝ " if self.color == :black
+    return " ♗ " if self.color == :white
   end
 
   def move_dirs
@@ -147,8 +147,8 @@ class QueenPiece < Piece
   end
 
   def symbol
-    return "♛" if self.color == :black
-    return "♕" if self.color == :white
+    return " ♛ " if self.color == :black
+    return " ♕ " if self.color == :white
   end
 
   def move_dirs
@@ -164,8 +164,8 @@ class KnightPiece < Piece
   end
 
   def symbol
-    return "♞" if self.color == :black
-    return "♘" if self.color == :white
+    return " ♞ " if self.color == :black
+    return " ♘ " if self.color == :white
   end
 
   def move_diffs
@@ -181,8 +181,8 @@ class KingPiece < Piece
   end
 
   def symbol
-    return "♚" if self.color == :black
-    return "♔" if self.color == :white
+    return " ♚ " if self.color == :black
+    return " ♔ " if self.color == :white
   end
 
   def move_diffs
@@ -195,6 +195,7 @@ class NullPiece < Piece
   end
 
   def symbol
+    return "   "
   end
 
   def moves
@@ -208,8 +209,8 @@ class PawnPiece < Piece
   end
 
   def symbol
-    return "♟️" if self.color == :black
-    return "♙" if self.color == :white
+    return " ♟ ️" if self.color == :black
+    return " ♙ " if self.color == :white
   end
 
   def move_dirs
