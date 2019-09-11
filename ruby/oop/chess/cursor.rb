@@ -89,6 +89,6 @@ class Cursor
 
   def update_pos(diff)
     new_pos = [self.cursor_pos[0] + MOVES[diff][0], self.cursor_pos[1] + MOVES[diff][1]]
-    self.cursor_pos = new_pos
+    @cursor_pos = new_pos if (0...8).include?(new_pos[0]) && (0...8).include?(new_pos[1])
   end
 end

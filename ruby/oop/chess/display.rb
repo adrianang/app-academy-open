@@ -11,28 +11,7 @@ class Display
   end
 
   def render
-    # rendered_board = Board.new
-    # # board = @board.board
-
-    # rendered_board.board.each_with_index do |row, row_idx|
-    #   row.each_with_index do |col, col_idx|
-    #     rendered_board[[row_idx, col_idx]] = self.board[[row_idx, col_idx]].symbol
-    #   end
-    # end
-
-    # rendered_board.board.each do |row|
-    #   puts row.join(" ")
-    # end
-    # # puts rendered_board.board
-    # return rendered_board
-
-
-    # @board.board.map.with_index do |row, i|
-    #   row.map.with_index do |piece, j|
-    #     puts piece.symbol.colorize(piece.color).colorize( :background => :red)
-    #   end
-    # end
-
+    system("clear")
     rendered_board = Board.new
     
     rendered_board.board.each_with_index do |row, i|
@@ -51,6 +30,14 @@ class Display
   
     rendered_board.board.each do |row|
       puts row.join("")
+    end
+  end
+
+  def make_move
+    flag = true
+    until !flag
+      self.render
+      @cursor.get_input
     end
   end
 end
