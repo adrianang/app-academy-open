@@ -17,11 +17,15 @@ class Display
     rendered_board.board.each_with_index do |row, i|
       row.each_with_index do |col, j|
         if [i, j] == @cursor.cursor_pos
-          bg = :red
+          if @cursor.selected
+            bg = :green
+          else
+            bg = :red
+          end
         elsif (i + j).odd?
-          bg = :light_blue
-        else
           bg = :blue
+        else
+          bg = :light_blue
         end
 
         rendered_board[[i, j]] = self.board[[i, j]].symbol.colorize(:color => self.board[[i, j]].color, :background => bg)
