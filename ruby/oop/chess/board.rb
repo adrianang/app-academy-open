@@ -66,6 +66,23 @@ class Board
     self[end_pos].pos = end_pos
     true
   end
+
+  def checkmate?(color)
+  end
+
+  def in_check?(color)
+
+
+    ## return true or false
+  end
+
+  def find_king(color)
+    @board.each_with_index do |row, i|
+      row.each_with_index do |piece, j|
+        return [i, j] if (piece.is_a?(KingPiece)) && (piece.color == color)
+      end
+    end
+  end
 end
 
 class PositionError < StandardError
