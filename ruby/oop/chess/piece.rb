@@ -97,7 +97,7 @@ class Piece
   def valid_moves
     return self.forward_steps if self.is_a?(PawnPiece)
 
-    self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) && self.board[pos].is_a?(NullPiece) }
+    self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) }
   end
 
   def symbol

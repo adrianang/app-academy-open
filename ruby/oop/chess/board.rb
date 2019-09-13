@@ -39,8 +39,8 @@ class Board
         self[[row, 3]] = QueenPiece.new(:black, self, [row, 3])
         self[[row, 4]] = KingPiece.new(:black, self, [row, 4])
       elsif row == 7
-        self[[row, 3]] = KingPiece.new(:white, self, [row, 3])
-        self[[row, 4]] = QueenPiece.new(:white, self, [row, 4])
+        self[[row, 3]] = QueenPiece.new(:white, self, [row, 3])
+        self[[row, 4]] = KingPiece.new(:white, self, [row, 4])
       end
     end
   end
@@ -71,9 +71,15 @@ class Board
   end
 
   def in_check?(color)
+    @board.each_with_index do |row, i|
+      row.each_with_index do |piece, j|
+        if piece.color != color && !piece.is_a?(NullPiece)
+          return true if piece.valid_moves.include?(self.find_king(color))
+        end
+      end
+    end
 
-
-    ## return true or false
+    return false
   end
 
   def find_king(color)
