@@ -23,7 +23,7 @@ module Slidable
         new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
       end
     end
-    
+
     moves
   end
 
@@ -41,46 +41,26 @@ module Slidable
 end
 
 module Stepable
-  @@L_SHAPE = [:two, :one]
-  @@RING = [:one]
-
   def moves
-    return self.forward_steps if self.is_a?(PawnPiece)
     moves = []
 
-    if self.move_diffs == self.l_shape
-      ((self.pos[0] - 1)..(self.pos[0] + 1)).step(2).each do |row|
-        ((self.pos[1] - 2)..(self.pos[1] + 2)).step(4).each do |col|
-          moves << [row, col]
-        end
-      end
+    self.move_diffs.each do |diff|
+      row_diff = self.pos[0] + diff[0]
+      column_diff = self.pos[1] + diff[1]
+      new_possible_diff = [row_diff, column_diff]
 
-      ((self.pos[0] - 2)..(self.pos[0] + 2)).step(4).each do |row|
-        ((self.pos[1] - 1)..(self.pos[1] + 1)).step(2).each do |col|
-          moves << [row, col]
-        end
-      end
-    else self.move_diffs == self.ring
-      ((self.pos[0] - 1)..(self.pos[0] + 1)).each do |row|
-        ((self.pos[1] - 1)..(self.pos[1] + 1)).each do |col|
-          moves << [row, col] if [row, col] != self.pos
+      if new_possible_diff.all? { |coord| (0..7).include?(coord) }
+        if self.board[new_possible_diff].is_a?(NullPiece) || (self.board[new_possible_diff].color != self.color)
+          moves << new_possible_diff
         end
       end
     end
 
-    self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) }
+    moves
   end
 
   def move_diffs
     self.move_diffs
-  end
-
-  def l_shape
-    @@L_SHAPE
-  end
-
-  def ring
-    @@RING
   end
 end
 
@@ -174,7 +154,7 @@ class KnightPiece < Piece
   end
 
   def move_diffs
-    @@L_SHAPE
+    [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]
   end
 end
 
@@ -191,7 +171,7 @@ class KingPiece < Piece
   end
 
   def move_diffs
-    @@RING
+    [[0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1]]
   end
 end
 
