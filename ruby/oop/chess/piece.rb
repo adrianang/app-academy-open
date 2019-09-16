@@ -1,80 +1,29 @@
 module Slidable
-  ##@@HORIZONTAL_DIRS = [:left, :up, :right, :down]
-  ##@@DIAGONAL_DIRS = [:left_up, :right_up, :right_down, :left_down]
-
   @@HORIZONTAL_DIRS = [[0, -1], [-1, 0], [0, 1], [1, 0]]
   @@DIAGONAL_DIRS = [[-1, -1], [-1, 1], [1, 1], [1, -1]]
-
-  # def moves
-  #   moves = []
-
-  #   if self.move_dirs == self.horizontal_dirs
-  #     (0...8).each { |col| moves << [self.pos[0], col] if (col != self.pos[1]) && self.board[[self.pos[0], col]].is_a?(NullPiece) }
-  #     (0...8).each { |row| moves << [row, self.pos[1]] if (row != self.pos[1]) && self.board[[row, self.pos[1]]].is_a?(NullPiece) }
-  #   elsif self.move_dirs == self.diagonal_dirs
-  #     (1...8).each do |move_factor|
-  #       ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor * 2).each do |row|
-  #         ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor * 2).each do |col|
-  #           moves << [row, col]
-  #         end
-  #       end
-  #     end
-  #   else
-  #     (1...8).each do |move_factor|
-  #       ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor).each do |row|
-  #         ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor).each do |col|
-  #           moves << [row, col] if ([row, col] != self.pos)
-  #         end
-  #       end
-  #     end      
-  #   end
-
-  #   moves
-  # end
 
   def moves
     moves = []
 
-    if self.move_dirs == self.horizontal_dirs
-      self.horizontal_dirs.each do |direction|
-        new_left_coord = self.pos[0] + direction[0]
-        new_right_coord = self.pos[1] + direction[1]
-        new_possible_pos = [new_left_coord, new_right_coord]
+    self.move_dirs.each do |direction|
+      new_left_coord = self.pos[0] + direction[0]
+      new_right_coord = self.pos[1] + direction[1]
+      new_possible_pos = [new_left_coord, new_right_coord]
 
-        while new_possible_pos.all? { |coord| (0..7).include?(coord) }
-          if self.board[new_possible_pos].is_a?(NullPiece)
-            moves << new_possible_pos
-          elsif self.board[new_possible_pos].color != self.color
-            moves << new_possible_pos
-            break
-          else
-            break
-          end
-
-          new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
+      while new_possible_pos.all? { |coord| (0..7).include?(coord) }
+        if self.board[new_possible_pos].is_a?(NullPiece)
+          moves << new_possible_pos
+        elsif self.board[new_possible_pos].color != self.color
+          moves << new_possible_pos
+          break
+        else
+          break
         end
-      end
-    elsif self.move_dirs == self.diagonal_dirs
-      self.diagonal_dirs.each do |direction|
-        new_left_coord = self.pos[0] + direction[0]
-        new_right_coord = self.pos[1] + direction[1]
-        new_possible_pos = [new_left_coord, new_right_coord]
 
-        while new_possible_pos.all? { |coord| (0..7).include?(coord) }
-          if self.board[new_possible_pos].is_a?(NullPiece)
-            moves << new_possible_pos
-          elsif self.board[new_possible_pos].color != self.color
-            moves << new_possible_pos
-            break
-          else
-            break
-          end
-
-          new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
-        end
+        new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
       end
     end
-
+    
     moves
   end
 
