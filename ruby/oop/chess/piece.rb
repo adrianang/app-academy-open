@@ -47,6 +47,27 @@ module Slidable
           elsif self.board[new_possible_pos].color != self.color
             moves << new_possible_pos
             break
+          else
+            break
+          end
+
+          new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
+        end
+      end
+    elsif self.move_dirs == self.diagonal_dirs
+      self.diagonal_dirs.each do |direction|
+        new_left_coord = self.pos[0] + direction[0]
+        new_right_coord = self.pos[1] + direction[1]
+        new_possible_pos = [new_left_coord, new_right_coord]
+
+        while new_possible_pos.all? { |coord| (0..7).include?(coord) }
+          if self.board[new_possible_pos].is_a?(NullPiece)
+            moves << new_possible_pos
+          elsif self.board[new_possible_pos].color != self.color
+            moves << new_possible_pos
+            break
+          else
+            break
           end
 
           new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
