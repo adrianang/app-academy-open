@@ -1,29 +1,57 @@
 module Slidable
-  @@HORIZONTAL_DIRS = [:left, :up, :right, :down]
-  @@DIAGONAL_DIRS = [:left_up, :right_up, :right_down, :left_up]
+  ##@@HORIZONTAL_DIRS = [:left, :up, :right, :down]
+  ##@@DIAGONAL_DIRS = [:left_up, :right_up, :right_down, :left_down]
+
+  @@HORIZONTAL_DIRS = [[0, -1], [-1, 0], [0, 1], [1, 0]]
+  @@DIAGONAL_DIRS = [[-1, -1], [-1, 1], [1, 1], [1, -1]]
+
+  # def moves
+  #   moves = []
+
+  #   if self.move_dirs == self.horizontal_dirs
+  #     (0...8).each { |col| moves << [self.pos[0], col] if (col != self.pos[1]) && self.board[[self.pos[0], col]].is_a?(NullPiece) }
+  #     (0...8).each { |row| moves << [row, self.pos[1]] if (row != self.pos[1]) && self.board[[row, self.pos[1]]].is_a?(NullPiece) }
+  #   elsif self.move_dirs == self.diagonal_dirs
+  #     (1...8).each do |move_factor|
+  #       ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor * 2).each do |row|
+  #         ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor * 2).each do |col|
+  #           moves << [row, col]
+  #         end
+  #       end
+  #     end
+  #   else
+  #     (1...8).each do |move_factor|
+  #       ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor).each do |row|
+  #         ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor).each do |col|
+  #           moves << [row, col] if ([row, col] != self.pos)
+  #         end
+  #       end
+  #     end      
+  #   end
+
+  #   moves
+  # end
 
   def moves
     moves = []
 
     if self.move_dirs == self.horizontal_dirs
-      (0...8).each { |col| moves << [self.pos[0], col] if (col != self.pos[1]) && self.board[[self.pos[0], col]].is_a?(NullPiece) }
-      (0...8).each { |row| moves << [row, self.pos[1]] if (row != self.pos[1]) && self.board[[row, self.pos[1]]].is_a?(NullPiece) }
-    elsif self.move_dirs == self.diagonal_dirs
-      (1...8).each do |move_factor|
-        ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor * 2).each do |row|
-          ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor * 2).each do |col|
-            moves << [row, col]
+      self.horizontal_dirs.each do |direction|
+        new_left_coord = self.pos[0] + direction[0]
+        new_right_coord = self.pos[1] + direction[1]
+        new_possible_pos = [new_left_coord, new_right_coord]
+
+        while new_possible_pos.all? { |coord| (0..7).include?(coord) }
+          if self.board[new_possible_pos].is_a?(NullPiece)
+            moves << new_possible_pos
+          elsif self.board[new_possible_pos].color != self.color
+            moves << new_possible_pos
+            break
           end
+
+          new_possible_pos = [new_possible_pos[0] + direction[0], new_possible_pos[1] + direction[1]]
         end
       end
-    else
-      (1...8).each do |move_factor|
-        ((self.pos[0] - move_factor)..(self.pos[0] + move_factor)).step(move_factor).each do |row|
-          ((self.pos[1] - move_factor)..(self.pos[1] + move_factor)).step(move_factor).each do |col|
-            moves << [row, col] if ([row, col] != self.pos)
-          end
-        end
-      end      
     end
 
     moves
@@ -47,6 +75,7 @@ module Stepable
   @@RING = [:one]
 
   def moves
+    return self.forward_steps if self.is_a?(PawnPiece)
     moves = []
 
     if self.move_diffs == self.l_shape
@@ -69,7 +98,7 @@ module Stepable
       end
     end
 
-    moves
+    self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) }
   end
 
   def move_diffs
@@ -95,13 +124,19 @@ class Piece
   end
 
   def valid_moves
-    return self.forward_steps if self.is_a?(PawnPiece)
-
-    self.moves.select { |pos| (0..7).include?(pos[0]) && (0..7).include?(pos[1]) }
   end
 
   def symbol
     self.symbol
+  end
+
+  def move_into_check?(end_pos)
+    board_dup = Marshal.load(Marshal.dump(@board))
+
+    # make move on duped board
+    # check if the player/color is in check
+      # if in check, return true
+      # else, return false
   end
 end
 
@@ -230,7 +265,7 @@ class PawnPiece < Piece
     end
   end
 
-  def forward_steps
+  def moves
     moves = []
     if self.at_start_row?
       moves << [self.pos[0] + (self.forward_dir * 2), self.pos[1]] 
