@@ -4,8 +4,8 @@ class Board
   attr_accessor :board
 
   def initialize
-    @board = Array.new(8) { Array.new(8) { nil } }
-    self.initialize_pieces
+    @board = Array.new(8) { Array.new(8) { NullPiece.new } }
+    # self.initialize_pieces
   end
 
   def initialize_pieces
@@ -57,8 +57,8 @@ class Board
 
   def move_piece(start_pos, end_pos)
     raise PositionError.new "There is no piece at #{start_pos}." if self[start_pos].is_a?(NullPiece)
-    raise PositionError.new "The piece cannot move to #{end_pos}." if !self[end_pos].is_a?(NullPiece)
-    raise PositionError.new "This piece type cannot move to #{end_pos}" if !self[start_pos].valid_moves.include?(end_pos)
+    # raise PositionError.new "The piece cannot move to #{end_pos}." if !self[end_pos].is_a?(NullPiece)
+    raise PositionError.new "This piece type cannot move to #{end_pos}" if !self[start_pos].moves.include?(end_pos)
 
     self[end_pos] = self[start_pos]
     self[start_pos] = NullPiece.new
@@ -68,13 +68,26 @@ class Board
   end
 
   def checkmate?(color)
+    if self.in_check?(color)
+      self.board.each_with_index do |row, i|
+        row.each_with_index do |piece, j|
+          if (piece.color == color) && !piece.valid_moves.empty?
+            return false
+          end
+        end
+      end
+
+      return true
+    end
+
+    return false
   end
 
   def in_check?(color)
     @board.each_with_index do |row, i|
       row.each_with_index do |piece, j|
         if piece.color != color && !piece.is_a?(NullPiece)
-          return true if piece.valid_moves.include?(self.find_king(color))
+          return true if piece.moves.include?(self.find_king(color))
         end
       end
     end
