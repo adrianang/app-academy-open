@@ -33,11 +33,13 @@ MOVES = {
 class Cursor
 
   attr_reader :cursor_pos, :board, :selected
+  attr_accessor :selected_piece_pos
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
     @selected = false
+    @selected_piece_pos = nil
   end
 
   def get_input
@@ -47,6 +49,9 @@ class Cursor
 
   def toggle_selected
     @selected = !@selected
+
+    @selected_piece_pos = @cursor_pos if @selected
+    @selected_piece_pos = [] if !@selected
   end
 
   private
@@ -83,7 +88,13 @@ class Cursor
   def handle_key(key)
     case key
     when :return, :space
-      self.toggle_selected
+      if !self.board[@cursor_pos].is_a?(NullPiece) && !@selected
+        self.toggle_selected
+      elsif self.board[@selected_piece_pos].valid_moves.include?(@cursor_pos) && selected
+        self.board.move_piece(@selected_piece_pos, @cursor_pos)
+        self.toggle_selected
+      end
+
       return @cursor_pos
     when :left, :right, :up, :down
       update_pos(key)

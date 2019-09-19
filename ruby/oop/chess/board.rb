@@ -5,7 +5,7 @@ class Board
 
   def initialize
     @board = Array.new(8) { Array.new(8) { NullPiece.new } }
-    # self.initialize_pieces
+    self.initialize_pieces
   end
 
   def initialize_pieces
@@ -57,7 +57,6 @@ class Board
 
   def move_piece(start_pos, end_pos)
     raise PositionError.new "There is no piece at #{start_pos}." if self[start_pos].is_a?(NullPiece)
-    # raise PositionError.new "The piece cannot move to #{end_pos}." if !self[end_pos].is_a?(NullPiece)
     raise PositionError.new "This piece type cannot move to #{end_pos}" if !self[start_pos].moves.include?(end_pos)
 
     self[end_pos] = self[start_pos]

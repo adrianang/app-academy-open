@@ -35,6 +35,13 @@ class Display
     rendered_board.board.each do |row|
       puts row.join("")
     end
+
+    puts "Current selected piece: #{ @cursor.selected_piece_pos }"
+    puts "Current cursor position: #{ @cursor.cursor_pos }"
+
+    if @cursor.selected_piece_pos && !@cursor.selected_piece_pos.empty?
+      puts "Valid moves: #{ self.board[@cursor.selected_piece_pos].valid_moves }"
+    end
   end
 
   # testing in pry
