@@ -74,6 +74,7 @@ class Piece
   end
 
   def valid_moves
+    self.board[pos].moves.select { |end_pos| !self.move_into_check?(end_pos) }
   end
 
   def symbol
@@ -84,6 +85,12 @@ class Piece
     board_dup = Marshal.load(Marshal.dump(@board))
 
     # make move on duped board
+    board_dup.move_piece(self.pos, end_pos)
+    if board_dup.in_check?(self.color)
+      return true
+    else
+      return false
+    end
     # check if the player/color is in check
       # if in check, return true
       # else, return false
@@ -216,14 +223,30 @@ class PawnPiece < Piece
   end
 
   def moves
-    moves = []
+    poss_moves = []
+
     if self.at_start_row?
-      moves << [self.pos[0] + (self.forward_dir * 2), self.pos[1]] 
+      poss_first_pawn_move = [self.pos[0] + (self.forward_dir * 2), self.pos[1]]
+      poss_moves << poss_first_pawn_move if self.board[poss_first_pawn_move].is_a?(NullPiece)
     end
-    moves << [self.pos[0] + self.forward_dir, self.pos[1]]
-    moves
+    poss_moves << [self.pos[0] + self.forward_dir, self.pos[1]]
+
+    self.side_attacks.each do |side_attack|
+      if !self.board[side_attack].is_a?(NullPiece) && (self.board[side_attack].color != self.color)
+        poss_moves << side_attack
+      end
+    end
+
+    poss_moves
   end
 
   def side_attacks
+    side_moves = []
+
+    side_moves << [self.pos[0] + self.forward_dir, self.pos[1] - 1]
+    side_moves << [self.pos[0] + self.forward_dir, self.pos[1] + 1]
+
+    side_moves = side_moves.select { |move| move.all? { |coord| (0..7).include?(coord) } }
+    side_moves
   end
 end
