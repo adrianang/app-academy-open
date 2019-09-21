@@ -86,12 +86,16 @@ class Cursor
   end
 
   def handle_key(key)
+    self.board.error_msg = nil
+
     case key
     when :return, :space
       if !self.board[@cursor_pos].is_a?(NullPiece) && !@selected
         self.toggle_selected
-      elsif self.board[@selected_piece_pos].valid_moves.include?(@cursor_pos) && selected
+      elsif @selected #&& self.board[@selected_piece_pos].valid_moves.include?(@cursor_pos)
         self.board.move_piece(@selected_piece_pos, @cursor_pos)
+        self.toggle_selected
+      elsif (@selected_piece_pos == @cursor_pos) && selected
         self.toggle_selected
       end
 

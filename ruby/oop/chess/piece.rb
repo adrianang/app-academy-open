@@ -85,15 +85,12 @@ class Piece
     board_dup = Marshal.load(Marshal.dump(@board))
 
     # make move on duped board
-    board_dup.move_piece(self.pos, end_pos)
+    board_dup.move_piece!(self.pos, end_pos)
     if board_dup.in_check?(self.color)
       return true
     else
       return false
     end
-    # check if the player/color is in check
-      # if in check, return true
-      # else, return false
   end
 end
 

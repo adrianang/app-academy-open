@@ -1,10 +1,11 @@
 require_relative "piece"
 
 class Board
-  attr_accessor :board
+  attr_accessor :board, :error_msg
 
   def initialize
     @board = Array.new(8) { Array.new(8) { NullPiece.new } }
+    @error_msg = nil
     self.initialize_pieces
   end
 
@@ -56,14 +57,23 @@ class Board
   end 
 
   def move_piece(start_pos, end_pos)
-    raise PositionError.new "There is no piece at #{start_pos}." if self[start_pos].is_a?(NullPiece)
-    raise PositionError.new "This piece type cannot move to #{end_pos}" if !self[start_pos].moves.include?(end_pos)
+    begin
+      if self[start_pos].move_into_check?(end_pos)
+        raise InCheckError.new
+      elsif self[start_pos].is_a?(NullPiece) || !self[start_pos].valid_moves.include?(end_pos)
+        raise PositionError.new
+      elsif self[start_pos].valid_moves.include?(end_pos)
+        self[end_pos] = self[start_pos]
+        self[start_pos] = NullPiece.new
 
-    self[end_pos] = self[start_pos]
-    self[start_pos] = NullPiece.new
-
-    self[end_pos].pos = end_pos
-    true
+        self[end_pos].pos = end_pos
+      end
+    rescue PositionError => e
+      self.error_msg = "There is no piece at #{start_pos}." if self[start_pos].is_a?(NullPiece)
+      self.error_msg = "This piece type cannot move to #{end_pos}." if !self[start_pos].valid_moves.include?(end_pos)
+    rescue InCheckError => e
+      self.error_msg = "Making this move would leave you in check (and losing)."
+    end
   end
 
   def checkmate?(color)
@@ -101,7 +111,17 @@ class Board
       end
     end
   end
+
+  def move_piece!(start_pos, end_pos)
+    self[end_pos] = self[start_pos]
+    self[start_pos] = NullPiece.new
+    self[end_pos].pos = end_pos
+    true
+  end
 end
 
 class PositionError < StandardError
+end
+
+class InCheckError < StandardError
 end

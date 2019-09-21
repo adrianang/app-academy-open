@@ -42,6 +42,10 @@ class Display
     if @cursor.selected_piece_pos && !@cursor.selected_piece_pos.empty?
       puts "Valid moves: #{ self.board[@cursor.selected_piece_pos].valid_moves }"
     end
+
+    if self.board.error_msg
+      puts self.board.error_msg
+    end
   end
 
   # testing in pry
