@@ -11,7 +11,6 @@ class Display
   end
 
   def render
-    system("clear")
     rendered_board = Board.new
     
     rendered_board.board.each_with_index do |row, i|

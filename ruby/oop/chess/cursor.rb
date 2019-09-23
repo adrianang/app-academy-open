@@ -92,7 +92,7 @@ class Cursor
     when :return, :space
       if !self.board[@cursor_pos].is_a?(NullPiece) && !@selected
         self.toggle_selected
-      elsif @selected #&& self.board[@selected_piece_pos].valid_moves.include?(@cursor_pos)
+      elsif @selected
         self.board.move_piece(@selected_piece_pos, @cursor_pos)
         self.toggle_selected
       elsif (@selected_piece_pos == @cursor_pos) && selected

@@ -14,12 +14,33 @@ class Game
   end
 
   def play
-    until self.board.checkmate?(@player_1.color) || self.board.checkmate?(@player_2.color)
-      @current_player.make_move(self.board)
-      @current_player = self.player_1 ? @current_player = self.player_2 : @current_player = self.player_1
+    until self.game_over?
+      system("clear")
+      @current_player == @player_1 ? name = "Player 1 / White" : name = "Player 2 / Black"
+      puts "Current player: #{ name }"
+      self.display.render
+      move = @current_player.make_move(self.board)
+
+      if move == self.display.cursor.cursor_pos && !self.display.cursor.selected
+        self.swap_turn!
+      end
     end
 
+    system("clear")
+    self.display.render
     self.board.checkmate?(@player_1.color) ? winner = "Player 1 (White)" : winner = "Player 2 (Black)"
     puts "The game is over; #{winner} wins the match."
+  end
+
+  def swap_turn!
+    @current_player == @player_1 ? @current_player = @player_2 : @current_player = @player_1
+  end
+
+  def game_over?
+    if self.board.checkmate?(@player_1.color) || self.board.checkmate?(@player_2)
+      return true
+    else
+      return false
+    end
   end
 end

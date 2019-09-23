@@ -15,7 +15,23 @@ class HumanPlayer < Player
   end
 
   def make_move(board)
-    self.display.render
-    self.display.cursor.get_input
+    begin
+      player_input = self.display.cursor.get_input
+
+      if player_input == self.display.cursor.cursor_pos
+        if self.display.board[player_input].color != self.color
+          self.display.cursor.toggle_selected
+          raise WrongColorError.new
+        end
+      end
+
+      player_input
+    rescue WrongColorError => e
+      puts "Piece selected is not the player's; pick again."
+      retry
+    end
   end
+end
+
+class WrongColorError < StandardError
 end
