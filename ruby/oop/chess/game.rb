@@ -16,8 +16,7 @@ class Game
   def play
     until self.game_over?
       system("clear")
-      @current_player == @player_1 ? name = "Player 1 / White" : name = "Player 2 / Black"
-      puts "Current player: #{ name }"
+      self.notify_players
       self.display.render
       move = @current_player.make_move(self.board)
 
@@ -27,9 +26,15 @@ class Game
     end
 
     system("clear")
+    puts "Game over - checkmate!"
     self.display.render
     self.board.checkmate?(@player_1.color) ? winner = "Player 1 (White)" : winner = "Player 2 (Black)"
-    puts "The game is over; #{winner} wins the match."
+    puts "The game is over; #{ winner } wins the match."
+  end
+
+  def notify_players
+    @current_player == @player_1 ? name = "Player 1 / White" : name = "Player 2 / Black"
+    puts "Current player: #{ name }"
   end
 
   def swap_turn!

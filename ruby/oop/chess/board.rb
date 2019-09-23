@@ -65,7 +65,6 @@ class Board
       elsif self[start_pos].valid_moves.include?(end_pos)
         self[end_pos] = self[start_pos]
         self[start_pos] = NullPiece.new
-
         self[end_pos].pos = end_pos
       end
     rescue PositionError => e
@@ -80,9 +79,7 @@ class Board
     if self.in_check?(color)
       self.board.each_with_index do |row, i|
         row.each_with_index do |piece, j|
-          if (piece.color == color) && !piece.valid_moves.empty?
-            return false
-          end
+          return false if (piece.color == color) && !piece.valid_moves.empty?
         end
       end
 

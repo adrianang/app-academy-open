@@ -84,7 +84,6 @@ class Piece
   def move_into_check?(end_pos)
     board_dup = Marshal.load(Marshal.dump(@board))
 
-    # make move on duped board
     board_dup.move_piece!(self.pos, end_pos)
     if board_dup.in_check?(self.color)
       return true
