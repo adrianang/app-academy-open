@@ -2,8 +2,6 @@ require "rspec"
 require "my_uniq"
  
 describe '#my_uniq' do
-  let(:passed_sorted_array) { [1, 2, 7] }
-
   it "expects to raise an error if an array is not passed" do
     expect { my_uniq(42) }.to raise_error(ArgumentError)
   end
