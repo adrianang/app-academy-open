@@ -10,15 +10,17 @@ class Player
     @folded = false
   end
 
+  def inspect
+    { 'id' => self.to_s, 'pot' => @pot }.inspect
+  end
+
   def discard(positions)
     kept_cards = @hand.roster.reject.with_index { |ele, i| positions.include?(i) }
     @hand.roster = kept_cards
-    puts "@hand.roster:"
-    p @hand.roster
   end
 
   def fold
-    return
+    self.folded = true
   end
 
   def see
