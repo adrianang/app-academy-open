@@ -5,6 +5,8 @@ class Deck
 
   def initialize
     @stack = []
+    self.make_deck
+    self.stack.shuffle!
   end
 
   def make_deck

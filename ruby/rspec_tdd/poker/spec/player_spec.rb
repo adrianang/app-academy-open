@@ -31,12 +31,12 @@ describe Player do
     end
 
     it "takes in a position within hand of card to discard" do
-      player.discard(1)
+      player.discard([0])
       expect(player.hand.roster).to eq(["card2", "card3", "card4", "card5"]) 
     end
 
     it "can discard up to three cards at a time" do
-      player.discard(1, 2, 3)
+      player.discard([0, 1, 2])
       expect(player.hand.roster).to eq(["card4", "card5"])
     end
   end
