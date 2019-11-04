@@ -1,0 +1,44 @@
+body {
+  background-color: mintcream;
+  font-family: "Arial", sans-serif;
+}
+
+header > img {
+  width: 100px;
+}
+
+h1 {
+  font-size: 38px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+ul li a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ingredients-list {
+  list-style: square inside;
+}
+
+.directions-list {
+  list-style: decimal inside;
+}
+
+.user_review {
+  background-color: salmon;
+  padding: 12px 24px 12px 24px;
+}
+
+.user_review h4 {
+  font-size: 22px;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.user_review > p:last-child {
+  border-top: 1px solid #FFFFFF;
+  padding: 6px 0 0 0;
+}
