@@ -43,6 +43,16 @@ def merge(left_arr, right_arr)
   sorted + left_arr + right_arr
 end
 
+def clever_octo(fishes)
+  longest_fish = fishes.first
+
+  fishes.each do |fish|
+    longest_fish = fish if fish.length > longest_fish.length
+  end
+
+  longest_fish
+end
+
 def measure(&block)
   start = Time.now
   block.call
@@ -56,3 +66,6 @@ p "sluggish_octo(): #{ measure { sluggish_octo(fish_array) } } seconds"
 
 p dominant_octopus(fish_array)
 p "dominant_octo(): #{ measure { dominant_octopus(fish_array) } } seconds"
+
+p clever_octo(fish_array)
+p "dominant_octo(): #{ measure { clever_octo(fish_array) } } seconds"
