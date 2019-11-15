@@ -86,3 +86,32 @@ class MyStack
     @store.empty?
   end
 end
+
+
+# Phase 4: StackQueue
+class StackQueue
+  def initialize
+    @push_in_stack = MyStack.new
+    @pop_out_stack = MyStack.new
+  end
+
+  def enqueue(ele)
+    @push_in_stack.push(ele)
+  end
+
+  def dequeue
+    if @pop_out_stack.empty?
+      @pop_out_stack.push(@push_in_stack.pop) until @push_in_stack.empty?
+    end
+    
+    @pop_out_stack.pop
+  end
+
+  def size
+    @push_in_stack.size + @pop_out_stack.size
+  end
+
+  def empty?
+    @push_in_stack.empty? && @pop_out_stack.empty?
+  end
+end
