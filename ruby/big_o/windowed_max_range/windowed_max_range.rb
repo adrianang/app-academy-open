@@ -30,3 +30,59 @@ puts windowed_max_range(arr3, 5)
 
 p "windowed_max_range: " + "%f" % measure { windowed_max_range(arr, 3) } + " seconds"
 # The overall time complexity for this solution is O(n^2). It uses min and max methods (each O(n)) within a loop over an array (also O(n)),
+
+
+# Phase 2: MyQueue
+class MyQueue
+  def initialize
+    @store = []
+  end
+
+  def enqueue(ele)
+    @store.push(ele)
+  end
+
+  def dequeue
+    @store.shift
+  end
+
+  def peek
+    @store.first
+  end
+
+  def size
+    @store.length
+  end
+
+  def empty?
+    @store.empty?
+  end
+end
+
+
+# Phase 3: MyStack
+class MyStack
+  def initialize
+    @store = []
+  end
+
+  def push(ele)
+    @store.push(ele)
+  end
+
+  def pop
+    @store.pop
+  end
+
+  def peek
+    @store.last
+  end
+
+  def size
+    @store.length
+  end
+
+  def empty?
+    @store.empty?
+  end
+end
