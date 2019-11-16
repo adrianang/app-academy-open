@@ -103,8 +103,93 @@ class StackQueue
     if @pop_out_stack.empty?
       @pop_out_stack.push(@push_in_stack.pop) until @push_in_stack.empty?
     end
-    
+
     @pop_out_stack.pop
+  end
+
+  def size
+    @push_in_stack.size + @pop_out_stack.size
+  end
+
+  def empty?
+    @push_in_stack.empty? && @pop_out_stack.empty?
+  end
+end
+
+
+# Phase 5: MinMaxStack
+class MinMaxStack
+  def initialize
+    @store = MyStack.new
+  end
+
+  def push(ele)
+    metadata = {
+      val: ele,
+      max: self.empty? ? ele : [self.max, ele].max,
+      min: self.empty? ? ele : [self.min, ele].min
+    }
+
+    @store.push(metadata)
+  end
+
+  def pop
+    @store.pop
+  end
+
+  def max
+    @store.peek[:max] unless self.empty?
+  end
+
+  def min
+    @store.peek[:min] unless self.empty?
+  end
+
+  def peek
+    @store.peek[:val] unless self.empty?
+  end
+
+  def size
+    @store.size
+  end
+
+  def empty?
+    @store.empty?
+  end
+end
+
+
+# Phase 6: MinMaxStackQueue
+class MinMaxStackQueue
+  def initialize
+    @push_in_stack = MinMaxStack.new
+    @pop_out_stack = MinMaxStack.new
+  end
+
+  def enqueue(ele)
+    @push_in_stack.push(ele)
+  end
+
+  def dequeue
+    if @pop_out_stack.empty?
+      @pop_out_stack.push(@push_in_stack.pop[:val]) until @push_in_stack.empty?
+    end
+
+    @pop_out_stack.pop
+  end
+
+  def max
+    poss_maxes = []
+    poss_maxes << @push_in_stack.max if @push_in_stack.max
+    poss_maxes << @pop_out_stack.max if @pop_out_stack.max
+    poss_maxes.max
+  end
+
+  def min
+    poss_mins = []
+    poss_mins << @push_in_stack.min if @push_in_stack.min
+    poss_mins << @pop_out_stack.min if @pop_out_stack.min
+    poss_mins.min
   end
 
   def size
