@@ -200,3 +200,29 @@ class MinMaxStackQueue
     @push_in_stack.empty? && @pop_out_stack.empty?
   end
 end
+
+
+# Phase 7: Max Windowed Range
+def max_windowed_range(arr, window_size)
+  current_max_range = nil
+  arr_dupe = arr.dup
+  window = MinMaxStackQueue.new
+
+  until arr_dupe.empty?
+    window.enqueue(arr_dupe.shift) until window.size == window_size
+    window_range = window.max - window.min
+    current_max_range = window_range if !current_max_range || (window_range > current_max_range)
+    window.dequeue
+  end
+
+  current_max_range
+end
+
+puts max_windowed_range(arr, 3)
+puts max_windowed_range(arr2, 2)
+puts max_windowed_range(arr2, 3)
+puts max_windowed_range(arr2, 4)
+puts max_windowed_range(arr3, 5)
+
+p "max_windowed_range: " + "%f" % measure { max_windowed_range(arr, 3) } + " seconds"
+# This solution has a time complexity of O(n).
