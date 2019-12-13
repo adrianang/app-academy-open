@@ -19,10 +19,23 @@ class User
     data.select { |datum| datum["id"] == id }.map { |datum| User.new(datum) }.first
   end
 
+  def self.find_by_name(fname, lname)
+    data = QuestionsDatabase.instance.execute("SELECT * FROM users")
+    data.select { |datum| (datum["fname"] == fname) && (datum["lname"] == lname) }.map { |datum| User.new(datum) }
+  end
+
   def initialize(options)
     @id = options["id"]
     @fname = options["fname"]
     @lname = options["lname"]
+  end
+
+  def authored_questions
+    Question.find_by_author_id(self.id)
+  end
+
+  def authored_replies
+    Reply.find_by_user_id(self.id)
   end
 end
 
@@ -34,11 +47,24 @@ class Question
     data.select { |datum| datum["id"] == id }.map { |datum| Question.new(datum) }.first
   end
 
+  def self.find_by_author_id(author_id)
+    data = QuestionsDatabase.instance.execute("SELECT * FROM questions")
+    data.select { |datum| datum["author_id"] == author_id }.map { |datum| Question.new(datum) }
+  end
+
   def initialize(options)
     @id = options["id"]
     @title = options["title"]
     @body = options["body"]
     @author_id = options["author_id"]
+  end
+
+  def author
+    User.find_by_id(self.author_id)
+  end
+
+  def replies
+    Reply.find_by_question_id(self.id)
   end
 end
 
@@ -65,12 +91,39 @@ class Reply
     data.select { |datum| datum["id"] == id }.map { |datum| Reply.new(datum) }.first
   end
 
+  def self.find_by_user_id(user_id)
+    data = QuestionsDatabase.instance.execute("SELECT * FROM replies")
+    data.select { |datum| datum["user_id"] == user_id }.map { |datum| Reply.new(datum) }
+  end
+
+  def self.find_by_question_id(question_id)
+    data = QuestionsDatabase.instance.execute("SELECT * FROM replies")
+    data.select { |datum| datum["question_id"] == question_id }.map { |datum| Reply.new(datum) }
+  end
+
   def initialize(options)
     @id = options["id"]
     @body = options["body"]
     @question_id = options["question_id"]
     @parent_reply_id = options["parent_reply_id"]
     @user_id = options["user_id"]
+  end
+
+  def author
+    User.find_by_id(self.user_id)
+  end
+
+  def question
+    Question.find_by_id(self.question_id)
+  end
+
+  def parent_reply
+    Reply.find_by_id(self.parent_reply_id)
+  end
+
+  def child_replies
+    all_questions_replies = Reply.find_by_question_id(self.question_id)
+    all_questions_replies.select { |reply| reply.parent_reply_id == self.id }
   end
 end
 
