@@ -60,6 +60,29 @@ class User
     SQL
     data.first["avg_karma"]
   end
+
+  def save
+    if !self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname)
+        INSERT INTO
+          users (fname, lname)
+        VALUES
+          (?, ?)
+      SQL
+      self.id = QuestionsDatabase.instance.last_insert_row_id
+    end
+
+    if self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.fname, self.lname, self.id)
+        UPDATE
+          users
+        SET
+          fname = ?, lname = ?
+        WHERE
+          id = ?
+      SQL
+    end
+  end
 end
 
 class Question
@@ -108,6 +131,29 @@ class Question
 
   def num_likes
     QuestionLike.num_likes_for_question_id(self.id)
+  end
+
+  def save
+    if !self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.author_id)
+        INSERT INTO
+          questions (title, body, author_id)
+        VALUES
+          (?, ?, ?)
+      SQL
+      self.id = QuestionsDatabase.instance.last_insert_row_id
+    end
+
+    if self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.title, self.body, self.author_id, self.id)
+        UPDATE
+          questions
+        SET
+          title = ?, body = ?, author_id = ?
+        WHERE
+          id = ?
+      SQL
+    end
   end
 end
 
@@ -216,6 +262,29 @@ class Reply
   def child_replies
     all_questions_replies = Reply.find_by_question_id(self.question_id)
     all_questions_replies.select { |reply| reply.parent_reply_id == self.id }
+  end
+
+  def save
+    if !self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.body, self.question_id, self.parent_reply_id, self.user_id)
+        INSERT INTO
+          replies (body, question_id, parent_reply_id, user_id)
+        VALUES
+          (?, ?, ?, ?)
+      SQL
+      self.id = QuestionsDatabase.instance.last_insert_row_id
+    end
+
+    if self.id
+      QuestionsDatabase.instance.execute(<<-SQL, self.body, self.question_id, self.parent_reply_id, self.user_id, self.id)
+        UPDATE
+          replies
+        SET
+          body = ?, question_id = ?, parent_reply_id = ?, user_id = ?
+        WHERE
+          id = ?
+      SQL
+    end
   end
 end
 
