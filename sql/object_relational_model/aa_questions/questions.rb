@@ -41,6 +41,25 @@ class User
   def followed_questions
     QuestionFollow.followed_questions_for_user_id(self.id)
   end
+
+  def liked_questions
+    QuestionLike.liked_questions_for_user_id(self.id)
+  end
+
+  def average_karma
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        (CAST(COUNT(question_likes.question_id) AS FLOAT) / COUNT(DISTINCT(questions.id))) AS avg_karma
+      FROM
+        questions
+      LEFT OUTER JOIN
+        question_likes
+        ON question_likes.question_id = questions.id
+      WHERE
+        questions.author_id = #{ self.id }
+    SQL
+    data.first["avg_karma"]
+  end
 end
 
 class Question
@@ -54,6 +73,14 @@ class Question
   def self.find_by_author_id(author_id)
     data = QuestionsDatabase.instance.execute("SELECT * FROM questions")
     data.select { |datum| datum["author_id"] == author_id }.map { |datum| Question.new(datum) }
+  end
+
+  def self.most_followed(n)
+    QuestionFollow.most_followed_questions(n)
+  end
+
+  def self.most_liked(n)
+    QuestionLike.most_liked_questions(n)
   end
 
   def initialize(options)
@@ -73,6 +100,14 @@ class Question
 
   def followers
     QuestionFollow.followers_for_question_id(self.id)
+  end
+
+  def likers
+    QuestionLike.likers_for_question_id(self.id)
+  end
+
+  def num_likes
+    QuestionLike.num_likes_for_question_id(self.id)
   end
 end
 
@@ -110,6 +145,25 @@ class QuestionFollow
         ON question_follows.question_id = questions.id
       WHERE
         question_follows.user_id = #{ user_id }
+    SQL
+    data.map { |datum| Question.new(datum) }
+  end
+
+  def self.most_followed_questions(n)
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        questions
+      JOIN
+        question_follows
+        ON question_follows.question_id = questions.id
+      GROUP BY
+        question_follows.question_id
+      ORDER BY
+        COUNT(question_follows.question_id) DESC
+      LIMIT
+        #{ n }
     SQL
     data.map { |datum| Question.new(datum) }
   end
@@ -171,6 +225,69 @@ class QuestionLike
   def self.find_by_id(id)
     data = QuestionsDatabase.instance.execute("SELECT * FROM question_likes")
     data.select { |datum| datum["id"] == id }.map { |datum| QuestionLike.new(datum) }.first
+  end
+
+  def self.likers_for_question_id(question_id)
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        users
+      JOIN
+        question_likes
+        ON question_likes.user_id = users.id
+      WHERE
+        question_likes.question_id = #{ question_id }
+    SQL
+    data.map { |datum| User.new(datum) }
+  end
+
+  def self.num_likes_for_question_id(question_id)
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        COUNT(question_likes.question_id)
+      FROM
+        questions
+      JOIN
+        question_likes
+        ON question_likes.question_id = questions.id 
+      WHERE
+        question_likes.question_id = #{ question_id }
+    SQL
+    data.first.values.first
+  end
+
+  def self.liked_questions_for_user_id(user_id)
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        questions
+      JOIN
+        question_likes
+        ON question_likes.question_id = questions.id
+      WHERE
+        question_likes.user_id = #{ user_id }
+    SQL
+    data.map { |datum| Question.new(datum) }
+  end
+
+  def self.most_liked_questions(n)
+    data = QuestionsDatabase.instance.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        questions
+      JOIN
+        question_likes
+        ON question_likes.question_id = questions.id
+      GROUP BY
+        question_likes.question_id
+      ORDER BY
+        COUNT(question_likes.question_id) DESC
+      LIMIT
+        #{ n }
+    SQL
   end
 
   def initialize(options)

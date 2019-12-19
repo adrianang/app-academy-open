@@ -59,13 +59,16 @@ INSERT INTO
   questions (title, body, author_id)
 VALUES
   ('Need help', 'My code won''t compile', 3),
-  ('Critique my project?', 'I just finished the tribute page', 2);
+  ('Critique my project?', 'I just finished the tribute page', 2),
+  ('What''s next, after the AA curriculum', 'Please don''t recommend another Udemy course', 3),
+  ('Quick q', 'Help me', 3);
 
 INSERT INTO
   question_follows (user_id, question_id)
 VALUES
   (1, 1),
-  (2, 1);
+  (2, 1),
+  (1, 2);
 
 INSERT INTO
   replies (body, question_id, parent_reply_id, user_id)
@@ -77,4 +80,5 @@ INSERT INTO
   question_likes (user_id, question_id)
 VALUES
   (1, 1),
+  (2, 1),
   (3, 2);
