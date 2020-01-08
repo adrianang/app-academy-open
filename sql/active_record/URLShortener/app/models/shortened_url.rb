@@ -8,7 +8,7 @@ class ShortenedUrl < ApplicationRecord
 
   def self.random_code
     random_code = SecureRandom.urlsafe_base64
-    ShortenedUrl.exists?(random_code) ? ShortenedUrl.random_code : random_code
+    ShortenedUrl.exists?(short_url: random_code) ? ShortenedUrl.random_code : random_code
   end
 
   def self.make_shortened_url(user, long_url)
