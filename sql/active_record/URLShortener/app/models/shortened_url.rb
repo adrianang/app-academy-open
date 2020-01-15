@@ -5,6 +5,8 @@ class ShortenedUrl < ApplicationRecord
   validates :short_url, presence: true, uniqueness: true
   validates :long_url, presence: true
   validates :user_id, presence: true
+  validate :no_spamming
+  validate :nonpremium_max
 
   def self.random_code
     random_code = SecureRandom.urlsafe_base64
@@ -25,6 +27,22 @@ class ShortenedUrl < ApplicationRecord
 
   def num_recent_uniques
     self.visits.select(:user_id).distinct.where({ created_at: (Time.now - 60.minutes)..(Time.now) }).count
+  end
+
+  def no_spamming
+    if self.submitter.submitted_urls[-5]
+      if (Time.now - self.submitter.submitted_urls[-5].created_at) < 60
+        errors[:base] << "Cannot submit more than 5 URLs in under a minute"
+      end
+    end
+  end
+
+  def nonpremium_max
+    if !self.submitter.premium
+      if self.submitter.submitted_urls.count >= 5
+        errors[:base] << "Nonpremium users cannot submit more than 5 URLs"
+      end
+    end
   end
 
   belongs_to :submitter,
