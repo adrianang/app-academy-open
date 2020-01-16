@@ -17,6 +17,16 @@ class ShortenedUrl < ApplicationRecord
     ShortenedUrl.create!(short_url: self.random_code, long_url: long_url, user_id: user.id)
   end
 
+  def self.prune(time)
+    ShortenedUrl.all.each do |short_url|
+      if short_url.num_clicks == 0
+        short_url.destroy unless short_url.submitter.premium
+      elsif (Time.now - short_url.visits.last.created_at) > time.minutes
+        short_url.destroy unless short_url.submitter.premium
+      end
+    end
+  end
+
   def num_clicks
     self.visits.count
   end
@@ -50,14 +60,14 @@ class ShortenedUrl < ApplicationRecord
     foreign_key: :user_id,
     class_name: :User
 
-  has_many :visits,
+  has_many :visits, dependent: :destroy,
     primary_key: :id,
     foreign_key: :short_url_id,
     class_name: :Visit
 
   has_many :visitors, -> { distinct }, through: :visits, source: :user
 
-  has_many :taggings,
+  has_many :taggings, dependent: :destroy,
     primary_key: :id,
     foreign_key: :short_url_id,
     class_name: :Tagging
