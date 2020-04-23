@@ -45,6 +45,7 @@ GEM
     activerecord (6.0.2.2)
       activemodel (= 6.0.2.2)
       activesupport (= 6.0.2.2)
+    activerecord-reset-pk-sequence (0.2.1)
     activestorage (6.0.2.2)
       actionpack (= 6.0.2.2)
       activejob (= 6.0.2.2)
@@ -216,6 +217,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-reset-pk-sequence
   annotate
   better_errors
   binding_of_caller
