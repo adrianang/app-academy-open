@@ -1,4 +1,7 @@
 class Poll < ApplicationRecord
+  validates :title, presence: true
+  validates :user_id, presence: true
+
   belongs_to :author,
     primary_key: :id,
     foreign_key: :user_id,
