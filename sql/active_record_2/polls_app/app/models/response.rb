@@ -2,6 +2,7 @@ class Response < ApplicationRecord
   validates :answer_choice_id, presence: true
   validates :user_id, presence: true
   validate :not_duplicate_response
+  validate :not_poll_author_response
 
   belongs_to :answer_choice,
     primary_key: :id,
@@ -25,7 +26,17 @@ class Response < ApplicationRecord
 
   def not_duplicate_response
     if self.respondent_already_answered?
-      errors[:base] << "Respondent has already answered"
+      errors[:respondent] << 'has already answered'
+    end
+  end
+
+  def author_wrote_poll?
+    self.question.poll.user_id == self.user_id
+  end
+
+  def not_poll_author_response
+    if self.author_wrote_poll?
+      errors[:respondent] << 'cannot answer this poll'
     end
   end
 end
