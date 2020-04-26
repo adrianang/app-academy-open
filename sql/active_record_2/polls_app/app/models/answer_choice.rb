@@ -11,4 +11,10 @@ class AnswerChoice < ApplicationRecord
     primary_key: :id,
     foreign_key: :answer_choice_id,
     class_name: :Response
+
+  after_destroy :log_destroyed_question
+
+  def log_destroyed_question
+    puts 'Question and answer choices deleted'
+  end
 end

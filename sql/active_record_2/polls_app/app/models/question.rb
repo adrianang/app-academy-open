@@ -7,7 +7,7 @@ class Question < ApplicationRecord
     foreign_key: :poll_id,
     class_name: :Poll
 
-  has_many :answer_choices,
+  has_many :answer_choices, dependent: :destroy,
     primary_key: :id,
     foreign_key: :question_id,
     class_name: :AnswerChoice
