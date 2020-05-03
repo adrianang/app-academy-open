@@ -10,7 +10,7 @@ class SQLObject
     else
       get_columns = DBConnection.execute2(<<-SQL).first
         SELECT
-          *
+          #{ self.table_name }.*
         FROM
           #{ self.table_name }
       SQL
@@ -35,11 +35,22 @@ class SQLObject
   end
 
   def self.all
-    # ...
+    results = DBConnection.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        #{ self.table_name }
+    SQL
+
+    self.parse_all(results)
   end
 
   def self.parse_all(results)
-    # ...
+    array_of_results = []
+    results.each do |result|
+      array_of_results << self.new(result)
+    end
+    array_of_results
   end
 
   def self.find(id)
