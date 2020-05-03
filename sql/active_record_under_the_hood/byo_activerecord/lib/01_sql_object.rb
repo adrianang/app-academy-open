@@ -47,14 +47,21 @@ class SQLObject
 
   def self.parse_all(results)
     array_of_results = []
-    results.each do |result|
-      array_of_results << self.new(result)
-    end
+    results.each { |result| array_of_results << self.new(result) }
     array_of_results
   end
 
   def self.find(id)
-    # ...
+    result = DBConnection.execute(<<-SQL, id)
+      SELECT
+        #{ self.table_name}.*
+      FROM
+        #{ self.table_name }
+      WHERE
+        ? = #{ self.table_name }.id
+    SQL
+
+    self.parse_all(result).first
   end
 
   def initialize(params = {})
