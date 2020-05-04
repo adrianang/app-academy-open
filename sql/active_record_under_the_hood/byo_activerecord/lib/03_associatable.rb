@@ -20,7 +20,11 @@ end
 
 class BelongsToOptions < AssocOptions
   def initialize(name, options = {})
-    # ...
+    @foreign_key = "#{ name }_id".to_sym
+    @primary_key = :id
+    @class_name = "#{ name.camelcase }"
+
+    options.each { |attribute, val| self.send("#{ attribute }=", val) } if options
   end
 end
 
