@@ -16,11 +16,15 @@ ArtworkShare.reset_pk_sequence
 
 user1 = User.create(username: "user1")
 user2 = User.create(username: "user2")
+user3 = User.create(username: "jennie")
 
 artwork1 = Artwork.create(title: "title1", image_url: "img_url_1", artist_id: 1)
 artwork2 = Artwork.create(title: "title2", image_url: "img_url_2", artist_id: 1)
 artwork3 = Artwork.create(title: "title3", image_url: "img_url_3", artist_id: 2)
+artwork4 = Artwork.create(title: "SOLO", image_url: "JENNIE - SOLO on YouTube", artist_id: 3)
 
 artwork_share1 = ArtworkShare.create(artwork_id: 2, viewer_id: 2)
 artwork_share2 = ArtworkShare.create(artwork_id: 1, viewer_id: 2)
 artwork_share3 = ArtworkShare.create(artwork_id: 3, viewer_id: 1)
+artwork_share4 = ArtworkShare.create(artwork_id: 4, viewer_id: 1)
+artwork_share5 = ArtworkShare.create(artwork_id: 4, viewer_id: 2)

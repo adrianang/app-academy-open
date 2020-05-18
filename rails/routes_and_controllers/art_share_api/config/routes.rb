@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, only: [:index, :show, :create, :update, :destroy]
 
   # Routes written out below for deeper understanding
   # get 'users', to: 'users#index', as: 'users'
@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   # patch 'users/:id', to: 'users#update'
   # put 'users/:id', to: 'users#update'
   # delete 'users/:id', to: 'users#destroy'
+
+  resources :artworks, only: [:index, :show, :create, :update, :destroy]
 end
