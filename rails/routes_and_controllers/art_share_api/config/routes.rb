@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index, :show, :create, :update, :destroy]
+  resources :users do
+    resources :artworks, only: [:index]
+  end
+
+  resources :users, only: [:show, :create, :update, :destroy]
 
   # Routes written out below for deeper understanding
   # get 'users', to: 'users#index', as: 'users'
