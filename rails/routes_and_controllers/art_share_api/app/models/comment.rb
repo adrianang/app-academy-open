@@ -12,4 +12,6 @@ class Comment < ApplicationRecord
     primary_key: :id,
     foreign_key: :artwork_id,
     class_name: :Artwork
+
+  has_many :likes, as: :likeable
 end
