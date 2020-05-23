@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  resources :users do
+  resources :users, only: [:index] do
     resources :artworks, only: [:index]
+
+    member do
+      get 'likes', as: 'liked_by'
+    end
   end
 
   resources :users, only: [:show, :create, :update, :destroy]
@@ -15,7 +19,25 @@ Rails.application.routes.draw do
   # put 'users/:id', to: 'users#update'
   # delete 'users/:id', to: 'users#destroy'
 
-  resources :artworks, only: [:index, :show, :create, :update, :destroy]
+  resources :artworks, only: [:index] do
+    member do
+      get 'likes', as: 'likes_on'
+      post 'like', as: 'like'
+      delete 'unlike', as: 'unlike'
+    end
+  end
+
+  resources :artworks, only: [:show, :create, :update, :destroy]
+  
   resources :artwork_shares, only: [:create, :destroy]
-  resources :comments, only: [:index, :create, :destroy]
+
+  resources :comments, only: [:index] do
+    member do
+      get 'likes', as: 'likes_on'
+      post 'like', as: 'like'
+      delete 'unlike', as: 'unlike'
+    end
+  end
+
+  resources :comments, only: [:show, :create, :destroy]
 end

@@ -42,6 +42,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def likes
+    liked_by_user = Like.where(user_id: params[:id])
+    render json: liked_by_user
+  end
+
   private
   def user_params
     params.require(:user).permit(:username)
