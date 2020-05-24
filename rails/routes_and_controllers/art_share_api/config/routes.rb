@@ -24,11 +24,20 @@ Rails.application.routes.draw do
       get 'likes', as: 'likes_on'
       post 'like', as: 'like'
       delete 'unlike', as: 'unlike'
+      post 'favorite', as: 'favorite'
+      post 'unfavorite', as: 'unfavorite'
     end
   end
 
   resources :artworks, only: [:show, :create, :update, :destroy]
-  
+
+  resources :artwork_shares, only: [:index] do
+    member do
+      post 'favorite', as: 'favorite'
+      post 'unfavorite', as: 'unfavorite'
+    end
+  end
+
   resources :artwork_shares, only: [:create, :destroy]
 
   resources :comments, only: [:index] do

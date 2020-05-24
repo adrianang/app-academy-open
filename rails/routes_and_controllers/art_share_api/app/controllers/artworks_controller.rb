@@ -68,6 +68,28 @@ class ArtworksController < ApplicationController
     end
   end
 
+  def favorite
+    artwork = Artwork.find_by(id: params[:id])
+    artwork.favorite = true
+
+    if artwork.save
+      render json: artwork
+    else
+      render json: "Cannot favorite this artwork"
+    end
+  end
+
+  def unfavorite
+    artwork = Artwork.find_by(id: params[:id])
+    artwork.favorite = false
+
+    if artwork.save
+      render json: artwork
+    else
+      render json: "Cannot favorite this artwork"
+    end    
+  end
+
   private
   def artwork_params
     params.require(:artwork).permit(:title, :image_url, :artist_id)
