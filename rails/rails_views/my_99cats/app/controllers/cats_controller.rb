@@ -13,4 +13,23 @@ class CatsController < ApplicationController
       redirect_to cats_url
     end
   end
+
+  def new
+    render :new
+  end
+
+  def create
+    @cats = Cat.new(cat_params)
+
+    if @cats.save
+      redirect_to cat_url(@cats)
+    else
+      render :new
+    end
+  end
+
+  private
+  def cat_params
+    params.require(:cat).permit(:name, :sex, :color, :birth_date, :description)
+  end
 end
