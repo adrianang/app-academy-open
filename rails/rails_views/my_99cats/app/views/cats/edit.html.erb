@@ -1,42 +1,5 @@
 <h1>Edit an existing cat!</h1>
 
-<form action="/cats/<%= @cat.id %>" method="POST">
-  <input type="hidden"  name="_method" value="PATCH">
-
-  <label for="name">Name</label>
-  <input id="name" type="text" name="cat[name]" value="<%= @cat.name %>">
-
-  <br>
-  
-  <label>Sex</label>
-  <label for="M">M</label>
-  <input id="M" type="radio" name="cat[sex]" value="M" <%= @cat.sex == "M" ? "checked" : "" %>>
-  <label for="F">F</label>
-  <input id="F" type="radio" name="cat[sex]" value="F" <%= @cat.sex == "F" ? "checked" : "" %>>
-
-  <br>
-
-  <label for="color">Color</label>
-  <select name="cat[color]">
-    <option disabled <%= @cat.color ? "" : "selected" %>>-- Please Select --</option>
-    <% Cat::CAT_COLORS.each do |color| %>
-      <option <%= @cat.color == color ? "selected" : "" %>><%= color %></option>
-    <% end %>
-  </select>
-
-  <br>
-
-  <label for="birth_date">Birth date</label>
-  <input id="birth_date" type="date" name="cat[birth_date]" value="<%= @cat.birth_date %>">
-
-  <br><br>
-
-  <label for="description">Description</label>
-  <br><textarea id="description" rows="4" cols="60" name="cat[description]"><%= @cat.description %></textarea>
-  
-  <br><br>
-
-  <input type="submit" value="Edit cat!">
-</form>
+<%= render 'form', cat: @cat, action: :edit %>
 
 <a href="../cats">Back to index</a>
