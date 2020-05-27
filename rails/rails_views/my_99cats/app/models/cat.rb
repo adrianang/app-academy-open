@@ -10,4 +10,10 @@ class Cat < ApplicationRecord
     age_from_today = Date.today - birth_date
     time_ago_in_words(age_from_today.days.ago)
   end
+
+  has_many :rental_requests,
+    primary_key: :id,
+    foreign_key: :cat_id,
+    class_name: :CatRentalRequest,
+    dependent: :destroy
 end
