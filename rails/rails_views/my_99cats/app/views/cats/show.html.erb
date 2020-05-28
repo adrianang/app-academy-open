@@ -1,4 +1,4 @@
-<h1><%= @cats.name %> the cute cat :3</h1>
+<h1><%= @cat.name %> the cute cat :3</h1>
 
 <table>
   <thead>
@@ -9,27 +9,27 @@
   <tbody>
     <tr>
       <td>Age:</td>
-      <td><%= @cats.age %></td>
+      <td><%= @cat.age %></td>
     </tr>
 
     <tr>
       <td>Birthday:</td>
-      <td><%= @cats.birth_date %></td>
+      <td><%= @cat.birth_date %></td>
     </tr>
 
     <tr>
       <td>Color:</td>
-      <td><%= @cats.color %></td>
+      <td><%= @cat.color %></td>
     </tr>
 
     <tr>
       <td>Sex:</td>
-      <td><%= @cats.sex %></td>
+      <td><%= @cat.sex %></td>
     </tr>
 
     <tr>
       <td>Description:</td>
-      <td><%= @cats.description %></td>
+      <td><%= @cat.description %></td>
     </tr>
   </tbody>
 </table>
@@ -43,7 +43,7 @@
   <thead>
 
   <tbody>
-    <% @cats.rental_requests.order(start_date: :asc).each do |rental_request| %>
+    <% @cat.rental_requests.order(start_date: :asc).each do |rental_request| %>
       <tr>
         <td><%= rental_request.id %></td>
         <td><%= rental_request.start_date %></td>
@@ -53,4 +53,4 @@
   <tbody>
 </table>
 
-<a href="../cats">Back to index</a> -- <a href="/cats/<%= @cats.id %>/edit">Edit this cat</a> -- <a href="/cat_rental_requests/new?cat_id=<%= @cats.id %>">Request to rent <%= @cats.name %></a>
+<a href="../cats">Back to index</a> -- <a href="/cats/<%= @cat.id %>/edit">Edit this cat</a> -- <a href="/cat_rental_requests/new?cat_id=<%= @cat.id %>">Request to rent <%= @cat.name %></a>

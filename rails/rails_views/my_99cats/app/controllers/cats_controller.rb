@@ -5,9 +5,9 @@ class CatsController < ApplicationController
   end
 
   def show
-    @cats = Cat.find_by(id: params[:id])
+    @cat = Cat.find_by(id: params[:id])
     
-    if @cats
+    if @cat
       render :show
     else
       redirect_to cats_url
@@ -20,10 +20,10 @@ class CatsController < ApplicationController
   end
 
   def create
-    @cats = Cat.new(cat_params)
+    @cat = Cat.new(cat_params)
 
-    if @cats.save
-      redirect_to cat_url(@cats)
+    if @cat.save
+      redirect_to cat_url(@cat)
     else
       render :new
     end
