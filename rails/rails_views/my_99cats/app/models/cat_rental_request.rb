@@ -37,6 +37,10 @@ class CatRentalRequest < ApplicationRecord
     self.update(status: "DENIED")
   end
 
+  def pending?
+    self.status == "PENDING" ? true : false
+  end
+
   def end_date_cannot_be_before_start_date
     if start_date > end_date
       errors.add(:end_date, "can't be before the start date")
