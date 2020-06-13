@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :check_if_logged_in, only: [:new]
+
   def new
     render :new
   end
@@ -10,14 +12,27 @@ class SessionsController < ApplicationController
     )
 
     if user.nil?
-      render json: 'Credentials are incorrect, that user does not exist'
+      flash[:alert] = "Credentials are incorrect, that user does not exist. Try again!"
+      render :new
     else
-      user.reset_session_token!
-      session[:session_token] = user.session_token
+      login_user!(user)
       redirect_to "/cats"
     end
   end
 
   def destroy
+    if current_user
+      current_user.reset_session_token!
+      session[:session_token] = ""
+      redirect_to "/cats"
+    end
+  end
+
+  private
+  def check_if_logged_in
+    if current_user
+      flash[:alert] = "You are already logged in! Please log out first."
+      redirect_to "/cats"
+    end
   end
 end

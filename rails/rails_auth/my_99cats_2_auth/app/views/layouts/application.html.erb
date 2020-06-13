@@ -9,6 +9,30 @@
   </head>
 
   <body>
+    <% if !current_user.nil? %>
+      <p>Logged in: <%= current_user.user_name %></p>
+      
+      <form action="/session" method="POST">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+        <input type="hidden" value="delete" name="_method" />
+        <input type="submit" value="Logout" />
+      </form>
+    <% else %>
+      <form action="/session/new" method="GET">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+        <input type="submit" value="Login" />
+      </form>
+
+      <form action="/users/new" method="GET">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+        <input type="submit" value="Sign Up" />
+      </form>
+    <% end %>
+
+    <% flash.each do |type, msg| %>
+      <p><%= msg %></p>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
