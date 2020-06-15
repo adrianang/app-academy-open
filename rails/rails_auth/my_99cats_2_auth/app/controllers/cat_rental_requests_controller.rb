@@ -1,4 +1,6 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :check_if_current_user_owns_cat, only: [:approve, :deny]
+
   def approve
     current_cat_rental_request.approve!
     redirect_to cat_url(current_cat)
@@ -24,7 +26,6 @@ class CatRentalRequestsController < ApplicationController
   end
 
   private
-
   def current_cat_rental_request
     @rental_request ||=
       CatRentalRequest.includes(:cat).find(params[:id])
@@ -36,5 +37,12 @@ class CatRentalRequestsController < ApplicationController
 
   def cat_rental_request_params
     params.require(:cat_rental_request).permit(:cat_id, :end_date, :start_date, :status)
+  end
+
+  def check_if_current_user_owns_cat
+    if current_cat.owner != current_user
+      flash[:alert] = "Oh no! You can only approve or deny rental requests for your own cats."
+      redirect_to cat_url(current_cat)
+    end
   end
 end
