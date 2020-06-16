@@ -37,6 +37,11 @@ class User < ApplicationRecord
     primary_key: :id,
     foreign_key: :user_id,
     class_name: :Cat
+
+  has_many :rental_requests,
+    primary_key: :id,
+    foreign_key: :user_id,
+    class_name: :CatRentalRequest
   
   private
   def ensure_session_token
